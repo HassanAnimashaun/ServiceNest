@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
-    "tailwindcss": "^4.1.4",
+    "axios": "^1.8.4",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
@@ -27,6 +27,7 @@
     "@vitest/eslint-plugin": "^1.1.39",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/test-utils": "^2.4.6",
+    "autoprefixer": "^10.4.21",
     "chromedriver": "^135.0.0",
     "eslint": "^9.22.0",
     "eslint-plugin-oxlint": "^0.16.0",
@@ -37,7 +38,10 @@
     "nightwatch": "^3.12.1",
     "npm-run-all2": "^7.0.2",
     "oxlint": "^0.16.0",
+    "path": "^0.12.7",
+    "postcss": "^8.5.3",
     "prettier": "3.5.3",
+    "tailwindcss": "^4.1.4",
     "ts-node": "^10.9.2",
     "vite": "^6.2.4",
     "vite-plugin-nightwatch": "^0.2.12",
