@@ -13,7 +13,7 @@ export default {
   },
   mounted() {
     const storedRememberMe = localStorage.getItem('rememberMe')
-    if (storedRememberMe === true) {
+    if (storedRememberMe === 'true') {
       this.rememberMe = true
       this.username = localStorage.getItem('username') || ''
       this.password = localStorage.getItem('password') || ''
@@ -36,11 +36,25 @@ export default {
     },
     // BACKEND API CALL
     async login() {
-      const response = await Login.login({
-        username: this.username,
-        password: this.passowrd
-      })
-      console.log(response.data)
+      try{
+        await Login.login({
+          username: this.username,
+          password: this.password
+        })
+      }catch(err){
+       this.error = err.response?.data?.error || 'Login failed. Please try again.'
+      }
+    },
+
+    async register() {
+      try{
+        await Login.register({
+          username: this.username,
+          password: this.password
+        })
+      }catch(err){
+       this.error = err.response?.data?.error || 'Login failed. Please try again.'
+      }
     },
   },
 }
@@ -81,7 +95,7 @@ export default {
             required
           />
           <div class="absolute inset-y-6 right-2 flex items-center">
-            <button @click.prevent="togglePassword" class="cursor-pointer">
+            <button type="button" @click.prevent="togglePassword" class="cursor-pointer">
               <span v-if="showPassword" class="material-symbols-outlined text-gray-500">
                 visibility
               </span>
@@ -109,9 +123,19 @@ export default {
           >
             Login
           </button>
+
+          <button
+            type="submit"
+            class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition"
+            @click="register"
+          >
+            Register
+          </button>
         </div>
       </form>
     </div>
+    <div class="text-center m-3 text-red-500 font-semibold" v-html=error></div>
+
   </div>
 </template>
 
