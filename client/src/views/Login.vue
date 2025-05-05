@@ -53,7 +53,7 @@ export default {
           password: this.password
         })
       }catch(err){
-       this.error = err.response?.data?.error || 'Login failed. Please try again.'
+       this.error = err.response?.data?.error || 'Registeration failed. Please try again.'
       }
     },
   },
@@ -118,7 +118,7 @@ export default {
         <div class="text-center">
           <button
             type="submit"
-            class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition"
+            class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-5"
             @click="login"
           >
             Login
