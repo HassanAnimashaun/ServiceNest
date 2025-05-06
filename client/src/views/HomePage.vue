@@ -6,8 +6,9 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue';
-import CarouselBanner from '@/components/CarouselBanner.vue';
+import NavBar from '@/components/NavBar.vue'
+import CarouselBanner from '@/components/CarouselBanner.vue'
+
 export default {
   data() {
     return {
