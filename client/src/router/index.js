@@ -3,10 +3,17 @@ import Login from '../views/Login.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import ReservationProfile from '@/views/ReservationProfile.vue'
 import Reservation from '@/views/ReservationForm.vue'
+import HomePage from '@/views/HomePage.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: HomePage
+    },
     {
       path: '/login',
       name: 'login',
@@ -14,12 +21,12 @@ const router = createRouter({
     },
     {
       path: '/reservation',
-      name: 'reservation',
+      name: 'Reservation',
       component: Reservation
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
+      name: 'Dashboard',
       component: Dashboard,
       children: [
         {
