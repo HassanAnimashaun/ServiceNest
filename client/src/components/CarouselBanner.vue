@@ -1,12 +1,10 @@
 <template>
-  <div class="carousel-banner">
-    <h1>Carousel Banner</h1>
-  </div>
+  <div class="relative w-full"></div>
 </template>
 
 <script>
 export default {
-  name: "CarouselBanner",
+  name: 'CarouselBanner',
 };
 </script>
 

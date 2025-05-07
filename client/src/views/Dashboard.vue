@@ -1,13 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import SearchBar from '../components/SearchBar.vue';
-import ProfileCard from '../components/ProfileCards.vue'
-
+import ProfileCard from '../components/ProfileCards.vue';
 
 export default {
   components: {
     SearchBar,
-    ProfileCard
+    ProfileCard,
   },
   data() {
     return {
@@ -24,20 +23,14 @@ export default {
 </script>
 
 <template>
-  <SearchBar/>
+  <SearchBar />
 
   <div class="w-screen h-screen flex text-white">
-
-
     <div class="w-full h-full bg-gray-400">
-      <ProfileCard/>
+      <ProfileCard />
       <router-view />
-
     </div>
   </div>
 </template>
 
-
-<style>
-
-</style>
+<style></style>

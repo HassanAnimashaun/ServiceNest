@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
-import Login from '/src/services/Login'
+import Login from '/src/services/Login';
 export default {
   data() {
     return {
@@ -9,59 +9,64 @@ export default {
       username: '',
       password: '',
       rememberMe: false,
-    }
+    };
   },
   mounted() {
-    const storedRememberMe = localStorage.getItem('rememberMe')
+    const storedRememberMe = localStorage.getItem('rememberMe');
     if (storedRememberMe === 'true') {
-      this.rememberMe = true
-      this.username = localStorage.getItem('username') || ''
-      this.password = localStorage.getItem('password') || ''
+      this.rememberMe = true;
+      this.username = localStorage.getItem('username') || '';
+      this.password = localStorage.getItem('password') || '';
     }
   },
   methods: {
     togglePassword() {
-      this.showPassword = !this.showPassword
+      this.showPassword = !this.showPassword;
     },
     handleRememberMeChange() {
       if (this.rememberMe) {
-        localStorage.setItem('rememberMe', true)
-        localStorage.setItem('username', this.username)
-        localStorage.setItem('password', this.password)
+        localStorage.setItem('rememberMe', true);
+        localStorage.setItem('username', this.username);
+        localStorage.setItem('password', this.password);
       } else {
-        localStorage.removeItem('rememberMe')
-        localStorage.removeItem('username')
-        localStorage.removeItem('password')
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('username');
+        localStorage.removeItem('password');
       }
     },
     // BACKEND API CALL
     async login() {
-      try{
+      try {
         await Login.login({
           username: this.username,
-          password: this.password
-        })
-      }catch(err){
-       this.error = err.response?.data?.error || 'Login failed. Please try again.'
+          password: this.password,
+        });
+      } catch (err) {
+        this.error =
+          err.response?.data?.error || 'Login failed. Please try again.';
       }
     },
 
     async register() {
-      try{
+      try {
         await Login.register({
           username: this.username,
-          password: this.password
-        })
-      }catch(err){
-       this.error = err.response?.data?.error || 'Registeration failed. Please try again.'
+          password: this.password,
+        });
+      } catch (err) {
+        this.error =
+          err.response?.data?.error ||
+          'Registeration failed. Please try again.';
       }
     },
   },
-}
+};
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+  <div
+    class="min-h-screen flex flex-col items-center justify-center bg-gray-100"
+  >
     <div class="flex flex-col items-center gap-6 mb-6">
       <img src="/src/components/icons/user.png" alt="profile" class="w-30" />
       <h2 class="text-2xl font-semibold text-center">Admin Login</h2>
@@ -70,8 +75,10 @@ export default {
     <div class="max-w-md bg-white p-6 rounded-2xl shadow-lg">
       <form @submit.prevent="login" method="post" novalidate="true">
         <div class="relative mb-5">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <span class="material-symbols-outlined text-gray-500"> person </span>
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+          >
+            <span class="material-symbols-outlined text-gray-500">person</span>
           </div>
           <input
             type="text"
@@ -83,8 +90,10 @@ export default {
           />
         </div>
         <div class="relative mb-5">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <span class="material-symbols-outlined text-gray-500"> key </span>
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+          >
+            <span class="material-symbols-outlined text-gray-500">key</span>
           </div>
           <input
             :type="showPassword ? 'text' : 'password'"
@@ -95,11 +104,20 @@ export default {
             required
           />
           <div class="absolute inset-y-6 right-2 flex items-center">
-            <button type="button" @click.prevent="togglePassword" class="cursor-pointer">
-              <span v-if="showPassword" class="material-symbols-outlined text-gray-500">
+            <button
+              type="button"
+              @click.prevent="togglePassword"
+              class="cursor-pointer"
+            >
+              <span
+                v-if="showPassword"
+                class="material-symbols-outlined text-gray-500"
+              >
                 visibility
               </span>
-              <span v-else class="material-symbols-outlined text-gray-500"> visibility_off </span>
+              <span v-else class="material-symbols-outlined text-gray-500">
+                visibility_off
+              </span>
             </button>
           </div>
         </div>
@@ -112,7 +130,9 @@ export default {
             @change="handleRememberMeChange"
             class="mr-2"
           />
-          <label for="remember" class="text-sm text-gray-700">Remember Me</label>
+          <label for="remember" class="text-sm text-gray-700">
+            Remember Me
+          </label>
         </div>
 
         <div class="text-center">
@@ -134,8 +154,10 @@ export default {
         </div>
       </form>
     </div>
-    <div class="text-center m-3 text-red-500 font-semibold" v-html=error></div>
-
+    <div
+      class="text-center m-3 text-red-500 font-semibold"
+      v-html="error"
+    ></div>
   </div>
 </template>
 

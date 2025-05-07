@@ -1,7 +1,7 @@
 <script>
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Profile",
+  name: 'Profile',
   data() {
     return {
       // Add your component data here
@@ -17,6 +17,4 @@ export default {
   <h1>Profile</h1>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

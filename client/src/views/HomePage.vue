@@ -1,27 +1,23 @@
 <template>
   <div>
-  <NavBar/>
-  <CarouselBanner/>
+    <NavBar />
+    <CarouselBanner />
   </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue'
-import CarouselBanner from '@/components/CarouselBanner.vue'
+import NavBar from '@/components/NavBar.vue';
+import CarouselBanner from '@/components/CarouselBanner.vue';
 
 export default {
   data() {
-    return {
-
-    };
+    return {};
   },
-  methods: {
-
-  },
+  methods: {},
   components: {
     // Register any components you want to use in this template
     NavBar,
-    CarouselBanner
+    CarouselBanner,
   },
 };
 </script>

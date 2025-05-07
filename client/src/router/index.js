@@ -1,10 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../views/Login.vue'
-import Dashboard from '@/views/Dashboard.vue'
-import ReservationProfile from '@/views/ReservationProfile.vue'
-import Reservation from '@/views/ReservationForm.vue'
-import HomePage from '@/views/HomePage.vue'
-
+import { createRouter, createWebHistory } from 'vue-router';
+import Login from '../views/Login.vue';
+import Dashboard from '@/views/Dashboard.vue';
+import ReservationProfile from '@/views/ReservationProfile.vue';
+import Reservation from '@/views/ReservationForm.vue';
+import HomePage from '@/views/HomePage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,17 +11,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'Home',
-      component: HomePage
-     },
+      component: HomePage,
+    },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
     },
     {
       path: '/reservation',
       name: 'Reservation',
-      component: Reservation
+      component: Reservation,
     },
     {
       path: '/dashboard',
@@ -32,11 +31,11 @@ const router = createRouter({
         {
           path: 'profile/:id',
           name: 'dashboard-profile',
-          component: ReservationProfile
-        }
-      ]
-    }
+          component: ReservationProfile,
+        },
+      ],
+    },
   ],
-})
+});
 
-export default router
+export default router;

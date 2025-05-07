@@ -15,7 +15,9 @@ export default {
 <template>
   <RouterLink>
     <div class="w-[50%] mb-2">
-      <div class="bg-red-800 w-full text-white flex justify-between items-center p-4 rounded">
+      <div
+        class="bg-red-800 w-full text-white flex justify-between items-center p-4 rounded"
+      >
         <p># 91929312213</p>
         <p>Hassan Animashaun</p>
         <p>05/03/25</p>
