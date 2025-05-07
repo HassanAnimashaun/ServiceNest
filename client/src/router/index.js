@@ -7,18 +7,18 @@ import HomePage from '@/views/HomePage.vue'
 
 
 const router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'Home',
-      component: HomePage
-    },
-    {
-      path: '/login',
-      name: 'login',
       component: Login
     },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: Login
+    // },
     {
       path: '/reservation',
       name: 'Reservation',
