@@ -1,6 +1,9 @@
 <!-- boiler plate temp top -->
 <template>
-  <nav class="border-gray-200 dark:border-gray-700">
+  <nav
+    class="absolute w-full z-10"
+    style="background-color: rgba(156, 163, 175, 0.5)"
+  >
     <div
       class="max-w-screen-xl flex flex-wrap items-center justify-end mx-auto p-4"
     >
@@ -19,7 +22,7 @@
           <li>
             <router-link
               to="/reservation"
-              class="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              class="block text-black py-2 px-3 md:p-0 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
             >
               Reservation
             </router-link>
@@ -52,4 +55,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+#navbar {
+  opacity: 50%;
+}
+</style>
