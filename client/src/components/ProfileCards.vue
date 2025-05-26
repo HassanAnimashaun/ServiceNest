@@ -4,6 +4,9 @@ export default {
   data() {
     return {
       // Add your component data here
+      resNumber: 9101201929,
+      name: 'Hassan Animashaun',
+      date: '09/23/25',
     };
   },
   methods: {
@@ -14,11 +17,11 @@ export default {
 
 <template>
   <RouterLink>
-    <div class="w-[50%] mb-2">
+    <div class="flex w-[90%] mb-2">
       <div
         class="bg-red-800 w-full text-white flex justify-between items-center p-4 rounded"
       >
-        <p># 91929312213</p>
+        <p># {{ resNumber }}</p>
         <p>Hassan Animashaun</p>
         <p>05/03/25</p>
       </div>
