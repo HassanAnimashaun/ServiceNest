@@ -47,28 +47,30 @@
           class="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
 
-        <!-- Make Select -->
-        <Multiselect
-          v-model="vehicle.make"
-          :options="makeOptions"
-          :taggable="true"
-          :searchable="true"
-          @change="fetchModelsForMake"
-          placeholder="Select a make"
-          class="w-full text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        />
+        <!-- Make selection -->
+        <div class="mb-4 w-full">
+          <Multiselect
+            class="mb-4"
+            v-model="vehicle.make"
+            :options="makeOptions"
+            :taggable="true"
+            :searchable="true"
+            placeholder="Select or type a make"
+          />
+        </div>
 
-        <!-- Model select -->
-        <Multiselect
-          v-model="vehicle.model"
-          :options="modelOptions"
-          :taggable="true"
-          :searchable="true"
-          placeholder="Select or type a model"
-          class="w-full text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        />
+        <!-- Model selection -->
+        <div class="mb-4 w-full">
+          <Multiselect
+            class="mb-4"
+            v-model="vehicle.model"
+            :options="modelOptions"
+            :taggable="true"
+            :searchable="true"
+            placeholder="Select or type a model"
+          />
+        </div>
 
-        <!-- Description -->
         <input
           type="text"
           v-model="vehicle.color"
@@ -155,8 +157,36 @@
             type="file"
             class="hidden"
             @change="handleFileUpload"
+            multiple
+            accept="image/*"
           />
         </label>
+      </div>
+
+      <!-- Preview -->
+      <div
+        v-if="imagePreviews.length"
+        class="mt-4 flex flex-wrap gap-4 max-w-md"
+      >
+        <div
+          v-for="(img, index) in imagePreviews"
+          :key="index"
+          class="relative w-24 h-24 border rounded-xl overflow-hidden"
+        >
+          <img
+            :src="img"
+            alt="Uploaded preview"
+            class="object-cover w-full h-full"
+          />
+          <!-- X button -->
+          <button
+            @click.prevent="removeImage(index)"
+            class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-700"
+            title="Remove"
+          >
+            ✕
+          </button>
+        </div>
       </div>
 
       <!-- Submit button -->
@@ -199,6 +229,8 @@ export default {
       service: [],
       description: '',
       vehicleImage: null,
+      imageFiles: [],
+      imagePreviews: [],
     };
   },
   created() {
@@ -238,10 +270,31 @@ export default {
       }
     },
     handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.vehicleImage = file;
-      }
+      const newFiles = Array.from(event.target.files);
+
+      // Filter out files already in imageFiles (by name & size)
+      const uniqueNewFiles = newFiles.filter(
+        (newFile) =>
+          !this.imageFiles.some(
+            (existingFile) =>
+              existingFile.name === newFile.name &&
+              existingFile.size === newFile.size
+          )
+      );
+
+      // Add unique files to the file array
+      this.imageFiles.push(...uniqueNewFiles);
+
+      // Generate previews for newly added files
+      const newPreviews = uniqueNewFiles.map((file) =>
+        URL.createObjectURL(file)
+      );
+      this.imagePreviews.push(...newPreviews);
+    },
+    removeImage(index) {
+      URL.revokeObjectURL(this.imagePreviews[index]);
+      this.imageFiles.splice(index, 1);
+      this.imagePreviews.splice(index, 1);
     },
     submitForm() {
       const formData = {
@@ -249,30 +302,49 @@ export default {
         vehicle: this.vehicle,
         service: this.service,
         description: this.description,
-        vehicleImageName: this.vehicleImage ? this.vehicleImage.name : null,
+        vehicleImageNames: this.imageFiles.map((file) => file.name),
       };
       console.log('Reservation sent', formData);
     },
+  },
+  beforeUnmount() {
+    // cleanup URLs
+    this.imagePreviews.forEach((url) => URL.revokeObjectURL(url));
   },
 };
 </script>
 
 <style scoped>
-/* Style the internal input of vueform Multiselect */
-.vueform-multiselect__input {
-  padding: 0.75rem 1rem; /* py-3 px-4 */
+::v-deep(.vueform-multiselect) {
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 1rem; /* rounded-xl */
   font-size: 1rem; /* text-base */
-}
-
-/* Also keep border radius consistent */
-.vueform-multiselect {
-  border-radius: 0.75rem; /* rounded-xl */
-}
-
-/* For focus ring on input */
-.vueform-multiselect:focus-within {
+  padding: 0.75rem 1rem; /* py-3 px-4 */
   outline: none;
-  box-shadow: 0 0 0 2px #facc15; /* Tailwind yellow-500 ring */
-  border-color: #facc15;
+  transition: box-shadow 0.2s ease;
+  width: 100%;
+  margin-bottom: 1rem; /* spacing */
+  box-sizing: border-box;
+}
+
+::v-deep(.vueform-multiselect:last-child) {
+  margin-bottom: 0;
+}
+
+::v-deep(.vueform-multiselect__input) {
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+::v-deep(.vueform-multiselect:focus-within) {
+  box-shadow: 0 0 0 2px #f59e0b; /* yellow ring */
+  border-color: #f59e0b;
+  outline: none;
+}
+
+::v-deep(.vueform-multiselect__input:focus) {
+  outline: none;
 }
 </style>
