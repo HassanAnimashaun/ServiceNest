@@ -46,18 +46,29 @@
           placeholder="Year"
           class="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
-        <input
-          type="text"
+
+        <!-- Make Select -->
+        <Multiselect
           v-model="vehicle.make"
-          placeholder="Make"
-          class="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          :options="makeOptions"
+          :taggable="true"
+          :searchable="true"
+          @change="fetchModelsForMake"
+          placeholder="Select a make"
+          class="w-full text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
-        <input
-          type="text"
+
+        <!-- Model select -->
+        <Multiselect
           v-model="vehicle.model"
-          placeholder="Model"
-          class="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          :options="modelOptions"
+          :taggable="true"
+          :searchable="true"
+          placeholder="Select or type a model"
+          class="w-full text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
+
+        <!-- Description -->
         <input
           type="text"
           v-model="vehicle.color"
@@ -162,8 +173,12 @@
 </template>
 
 <script>
+import Multiselect from '@vueform/multiselect';
+import '@vueform/multiselect/themes/default.css';
+
 export default {
   name: 'ReservationForm',
+  components: { Multiselect },
   data() {
     return {
       // Add your component data here
@@ -179,17 +194,85 @@ export default {
         model: '',
         color: '',
       },
+      makeOptions: [],
+      modelOptions: [],
       service: [],
       description: '',
       vehicleImage: null,
     };
   },
+  created() {
+    this.fetchMakes();
+  },
+  watch: {
+    'vehicle.make'(newMake) {
+      this.vehicle.model = null;
+      this.modelOptions = [];
+      if (newMake) {
+        this.fetchModelsForMake();
+      }
+    },
+  },
   methods: {
-    // Add your methods here
+    async fetchMakes() {
+      try {
+        const res = await fetch(
+          'https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json'
+        );
+        const data = await res.json();
+        this.makeOptions = data.Results.map((m) => m.Make_Name);
+      } catch (err) {
+        console.error('Error fetching makes:', err);
+      }
+    },
+    async fetchModelsForMake() {
+      if (!this.vehicle.make) return;
+      try {
+        const res = await fetch(
+          `https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/${this.vehicle.make}?format=json`
+        );
+        const data = await res.json();
+        this.modelOptions = data.Results.map((m) => m.Model_Name);
+      } catch (err) {
+        console.error('Error fetching models:', err);
+      }
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.vehicleImage = file;
+      }
+    },
+    submitForm() {
+      const formData = {
+        user: this.user,
+        vehicle: this.vehicle,
+        service: this.service,
+        description: this.description,
+        vehicleImageName: this.vehicleImage ? this.vehicleImage.name : null,
+      };
+      console.log('Reservation sent', formData);
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Add your styles here */
+/* Style the internal input of vueform Multiselect */
+.vueform-multiselect__input {
+  padding: 0.75rem 1rem; /* py-3 px-4 */
+  font-size: 1rem; /* text-base */
+}
+
+/* Also keep border radius consistent */
+.vueform-multiselect {
+  border-radius: 0.75rem; /* rounded-xl */
+}
+
+/* For focus ring on input */
+.vueform-multiselect:focus-within {
+  outline: none;
+  box-shadow: 0 0 0 2px #facc15; /* Tailwind yellow-500 ring */
+  border-color: #facc15;
+}
 </style>
