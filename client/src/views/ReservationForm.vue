@@ -3,6 +3,7 @@
     class="min-h-screen flex flex-col items-center justify-center bg-gray-100"
   >
     <form
+      method="POST"
       @submit.prevent="submitForm"
       class="max-w-md bg-white p-6 rounded-2xl shadow-lg"
     >

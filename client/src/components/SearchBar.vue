@@ -1,7 +1,45 @@
 <template>
-  <div class="flex items-center justify-between px-6 py-4">
-    <!-- User Icon -->
-    <details class="relative border border-transparent">
+  <div class="flex items-center justify-between px-2 py-2">
+    <!-- Hamburger menu (mobile only) -->
+    <div class="md:hidden">
+      <button @click="showMenu = !showMenu">
+        <svg
+          class="w-10 h-10 text-slate-700"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+      </button>
+
+      <div
+        v-if="showMenu"
+        class="absolute left-6 top-16 bg-white shadow-md rounded-md p-4 z-20"
+      >
+        <button
+          @click="goToDashboard"
+          class="block w-full text-left py-1 hover:text-blue-600"
+        >
+          Dashboard
+        </button>
+        <button
+          @click="logout"
+          class="block w-full text-left py-1 hover:text-red-600"
+        >
+          Log Out
+        </button>
+      </div>
+    </div>
+
+    <!-- User Icon (hidden on mobile) -->
+    <details class="relative border border-transparent hidden md:block">
       <summary class="w-10 h-10 select-none cursor-pointer list-none">
         <img
           src="/src/components/icons/user.png"
@@ -28,9 +66,9 @@
       </div>
     </details>
 
-    <!-- Search Bar -->
+    <!-- Search Bar (centered on all screens) -->
     <div
-      class="absolute left-1/2 transform -translate-x-1/2 w-full sm:max-w-xl"
+      class="absolute left-60 transform -translate-x-1/2 w-5/6 sm:w-2/3 md:w-1/2 lg:w-1/3"
     >
       <div class="relative">
         <svg
@@ -62,16 +100,13 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-
-const query = ref('');
-
 export default {
   name: 'SearchBar',
   data() {
     return {
       query: '',
       result: null,
+      showMenu: false,
       reservations: [
         { number: '12345', name: 'John Doe', service: 'Full Wrap' },
         { number: '67890', name: 'Jane Smith', service: 'Tint' },
@@ -80,18 +115,20 @@ export default {
   },
   methods: {
     onSearch() {
-      if (query.value.trim() === '') {
-        this.result.value = null;
+      if (this.query.trim() === '') {
+        this.result = null;
         return;
       }
       this.result = this.reservations.find(
-        (r) => r.number.toLowerCase() === query.value.trim().toLowerCase()
+        (r) => r.number.toLowerCase() === this.query.trim().toLowerCase()
       );
     },
-    goToDashboard() {},
-    logout() {},
+    goToDashboard() {
+      console.log('go to dashboard');
+    },
+    logout() {
+      console.log('log out');
+    },
   },
 };
 </script>
-
-<style></style>

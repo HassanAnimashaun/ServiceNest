@@ -5,7 +5,7 @@ const { connectToDb, getDb } = require("./db.js");
 const { ObjectId } = require("mongodb");
 
 const app = express();
-app.use(express.json);
+app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
@@ -58,10 +58,10 @@ app.get("/reservations/:id", (req, res) => {
   }
 });
 
-app.post("reservations", (req, res) => {
+app.post("/reservations", (req, res) => {
   const user = req.body;
 
-  db.ObjectId("reservation")
+  db.collection("reservations")
     .insertOne(user)
     .then((result) => {
       res.status(201).json(result);

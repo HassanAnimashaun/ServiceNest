@@ -18,11 +18,6 @@ const router = createRouter({
       component: Login,
     },
     {
-      path: '/reservation',
-      name: 'Reservation',
-      component: Reservation,
-    },
-    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
@@ -33,6 +28,11 @@ const router = createRouter({
           component: ReservationProfile,
         },
       ],
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: ReservationProfile,
     },
   ],
 });
