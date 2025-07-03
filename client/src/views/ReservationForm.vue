@@ -249,20 +249,20 @@ export default {
   methods: {
     async fetchMakes() {
       try {
-        const res = await fetch(
-          'https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json'
-        );
+        const res = await fetch('http://localhost:3000/api/makes');
         const data = await res.json();
+        console.log('MAKE API RESPONSE:', data);
         this.makeOptions = data.Results.map((m) => m.Make_Name);
       } catch (err) {
         console.error('Error fetching makes:', err);
       }
     },
+
     async fetchModelsForMake() {
       if (!this.vehicle.make) return;
       try {
         const res = await fetch(
-          `https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/${this.vehicle.make}?format=json`
+          `http://localhost:3000/api/models/${this.vehicle.make}`
         );
         const data = await res.json();
         this.modelOptions = data.Results.map((m) => m.Model_Name);

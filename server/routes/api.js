@@ -3,9 +3,31 @@ const express = require("express");
 const router = express.Router();
 const { getdb } = require("../db"); // import db accessor
 
-// GET /api
-router.get("/", (req, res) => {
-  res.send("hello");
+// Fetch all vehicle makes
+app.get("/api/makes", async (req, res) => {
+  try {
+    const response = await fetch(
+      "https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json"
+    );
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch makes" });
+  }
+});
+
+// Fetch models for a specific make
+app.get("/api/models/:make", async (req, res) => {
+  const { make } = req.params;
+  try {
+    const response = await fetch(
+      `https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/${make}?format=json`
+    );
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch models" });
+  }
 });
 
 // GET /api/reservations
