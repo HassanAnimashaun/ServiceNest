@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between px-2 py-2">
     <!-- Hamburger menu (mobile only) -->
     <div class="md:hidden">
-      <button @click="showMenu = !showMenu">
+      <button @click="showMenu = !showMenu" class="hamburger-button">
         <svg
           class="w-10 h-10 text-slate-700"
           fill="none"
@@ -21,7 +21,7 @@
 
       <div
         v-if="showMenu"
-        class="absolute left-6 top-16 bg-white shadow-md rounded-md p-4 z-20"
+        class="mobile-menu absolute left-6 top-16 bg-white shadow-md rounded-md p-4 z-20"
       >
         <button
           @click="goToDashboard"
@@ -68,7 +68,7 @@
 
     <!-- Search Bar (centered on all screens) -->
     <div
-      class="absolute left-60 transform -translate-x-1/2 w-5/6 sm:w-2/3 md:w-1/2 lg:w-1/3"
+      class="absolute left-60 sm:left-1/2 transform -translate-x-1/2 w-5/6 sm:w-2/3 md:w-1/2 lg:w-1/3"
     >
       <div class="relative">
         <svg
@@ -129,6 +129,23 @@ export default {
     logout() {
       console.log('log out');
     },
+    handleClickOutside(event) {
+      const menu = this.$el.querySelector('.mobile-menu');
+      const button = this.$el.querySelector('.hamburger-button');
+      if (
+        this.showMenu &&
+        !menu.contains(event.target) &&
+        !button.contains(event.target)
+      ) {
+        this.showMenu = false;
+      }
+    },
+  },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
   },
 };
 </script>

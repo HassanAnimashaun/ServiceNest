@@ -25,4 +25,13 @@ router.get("/reservations", async (req, res) => {
   }
 });
 
+app.post("/reservations", async (req, res) => {
+  try {
+    const reservation = await ReservationModel.create(req.body);
+    res.status(201).json(reservation);
+  } catch (err) {
+    res.status(500).json({ message: "Error saving reservation" });
+  }
+});
+
 module.exports = router;

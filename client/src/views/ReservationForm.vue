@@ -297,20 +297,35 @@ export default {
       this.imageFiles.splice(index, 1);
       this.imagePreviews.splice(index, 1);
     },
-    submitForm() {
-      const formData = {
-        user: this.user,
-        vehicle: this.vehicle,
-        service: this.service,
-        description: this.description,
-        vehicleImageNames: this.imageFiles.map((file) => file.name),
-      };
-      console.log('Reservation sent', formData);
+    async submitForm() {
+      try {
+        const payload = {
+          name: `${this.user.fname} ${this.user.lname} `,
+          email: this.user.email,
+          phone: this.user.phone,
+          vehicle: this.vehicle,
+          service: this.service,
+          note: this.description,
+          images: this.imageFiles.map((file) => file.name),
+        };
+        const res = await fetch('http://localhost:3000/reservations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) throw new Error('Failed to create reservation');
+
+        const result = await res.json();
+        console.log('Reservation created:', result);
+      } catch (err) {
+        console.error('Error submitting form', err);
+      }
     },
-  },
-  beforeUnmount() {
-    // cleanup URLs
-    this.imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+    beforeUnmount() {
+      // cleanup URLs
+      this.imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+    },
   },
 };
 </script>
