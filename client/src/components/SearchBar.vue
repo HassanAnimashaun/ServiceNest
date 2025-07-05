@@ -127,7 +127,13 @@ export default {
       console.log('go to dashboard');
     },
     logout() {
-      console.log('log out');
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('username');
+      // Optional: remove token if you later implement JWT
+      localStorage.removeItem('token');
+
+      this.$router.push('/login');
     },
     handleClickOutside(event) {
       const menu = this.$el.querySelector('.mobile-menu');

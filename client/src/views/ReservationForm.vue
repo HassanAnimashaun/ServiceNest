@@ -251,7 +251,6 @@ export default {
       try {
         const res = await fetch('http://localhost:3000/api/makes');
         const data = await res.json();
-        console.log('MAKE API RESPONSE:', data);
         this.makeOptions = data.Results.map((m) => m.Make_Name);
       } catch (err) {
         console.error('Error fetching makes:', err);
@@ -308,16 +307,22 @@ export default {
           note: this.description,
           images: this.imageFiles.map((file) => file.name),
         };
-        const res = await fetch('http://localhost:3000/reservations', {
+        const res = await fetch('http://localhost:3000/api/reservations', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
 
-        if (!res.ok) throw new Error('Failed to create reservation');
-
-        const result = await res.json();
-        console.log('Reservation created:', result);
+        if (res.ok) {
+          const result = await res.json();
+          console.log('Reservation created:', result);
+          this.$router.push({
+            name: 'ConfirmationPage',
+            query: { name: this.user.fname, number: result.reservationNumber },
+          });
+        } else {
+          throw new Error('Failed to create reservation');
+        }
       } catch (err) {
         console.error('Error submitting form', err);
       }

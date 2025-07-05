@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../views/Login.vue';
+import Login from '@/views/Login.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import ReservationProfile from '@/views/ReservationProfile.vue';
 import Reservation from '@/views/ReservationForm.vue';
+import ConfirmationPage from '@/views/ConfirmationPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,11 @@ const router = createRouter({
       component: Reservation,
     },
     {
+      path: '/confirmation',
+      name: 'ConfirmationPage',
+      component: ConfirmationPage,
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login,
@@ -21,6 +27,7 @@ const router = createRouter({
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
+      meta: { requiresAuth: true },
       children: [
         {
           path: 'profile/:id',

@@ -11,52 +11,25 @@ export default {
       rememberMe: false,
     };
   },
-  mounted() {
-    const storedRememberMe = localStorage.getItem('rememberMe');
-    if (storedRememberMe === 'true') {
-      this.rememberMe = true;
-      this.username = localStorage.getItem('username') || '';
-      this.password = localStorage.getItem('password') || '';
-    }
-  },
   methods: {
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
-    handleRememberMeChange() {
-      if (this.rememberMe) {
-        localStorage.setItem('rememberMe', true);
-        localStorage.setItem('username', this.username);
-        localStorage.setItem('password', this.password);
-      } else {
-        localStorage.removeItem('rememberMe');
-        localStorage.removeItem('username');
-        localStorage.removeItem('password');
-      }
-    },
+
     // BACKEND API CALL
     async login() {
       try {
-        await Login.login({
+        const response = await Login.login({
           username: this.username,
           password: this.password,
         });
+
+        console.log('Login successful:', response.data.message);
+
+        this.$router.push('/dashboard');
       } catch (err) {
         this.error =
           err.response?.data?.error || 'Login failed. Please try again.';
-      }
-    },
-
-    async register() {
-      try {
-        await Login.register({
-          username: this.username,
-          password: this.password,
-        });
-      } catch (err) {
-        this.error =
-          err.response?.data?.error ||
-          'Registeration failed. Please try again.';
       }
     },
   },
@@ -142,14 +115,6 @@ export default {
             @click="login"
           >
             Login
-          </button>
-
-          <button
-            type="submit"
-            class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition"
-            @click="register"
-          >
-            Register
           </button>
         </div>
       </form>
