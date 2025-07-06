@@ -22,6 +22,7 @@ const ReservationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  status: String,
 });
 
 // This line makes the model accessible to other files

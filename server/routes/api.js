@@ -1,9 +1,11 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const fetch = require("node-fetch");
 const { getDb } = require("../db");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+const { verifyToken, requireAdmin } = require("../middleware/auth");
 
 // Fetch all vehicle makes
 router.get("/makes", async (req, res) => {
@@ -80,26 +82,25 @@ router.post("/login", async (req, res) => {
   const db = getDb();
   const { username, password } = req.body;
 
-  try {
-    const user = await db.collection("credentials").findOne({ username });
+  const user = await db.collection("credentials").findOne({ username });
+  if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials." });
-    }
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+  const token = jwt.sign(
+    { username: user.username, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "2h" }
+  );
 
-    if (!isMatch) {
-      return res.status(401).json({ error: "Invalid credentials." });
-    }
-
-    res.status(200).json({ message: "Login successful." });
-  } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ error: "Login failed. Try again later." });
-  }
+  res.status(200).json({ token, message: "Login successful" });
 });
 
-
+router.get("/reservations", verifyToken, requireAdmin, async (req, res) => {
+  const db = getDb();
+  const reservations = await db.collection("reservations").find().toArray();
+  res.json(reservations);
+});
 
 module.exports = router;

@@ -126,15 +126,14 @@ export default {
     goToDashboard() {
       console.log('go to dashboard');
     },
-    logout() {
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('rememberMe');
-      localStorage.removeItem('username');
-      // Optional: remove token if you later implement JWT
-      localStorage.removeItem('token');
 
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('isLoggedIn'); // if used
+      localStorage.removeItem('username');
       this.$router.push('/login');
     },
+
     handleClickOutside(event) {
       const menu = this.$el.querySelector('.mobile-menu');
       const button = this.$el.querySelector('.hamburger-button');

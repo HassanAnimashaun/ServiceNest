@@ -4,14 +4,15 @@
   <div class="min-h-screen flex flex-col items-center justify-center">
     <div class="max-w bg-white p-6 rounded-2xl shadow-lg">
       <div class="p-8 grid gap-8">
+        <!-- Info -->
+        <div class="">
+          <h2 class="text-3xl text-blue-500 font-mono font-bold">
+            #9012948492
+          </h2>
+          <p class="font-mono">Service: Wrap, Tint</p>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-20">
-          <!-- Info -->
-          <div class="text-center">
-            <h2 class="text-3xl text-blue-500 font-mono font-bold">
-              #9012948492
-            </h2>
-            <p class="font-mono">Service: Wrap, Tint</p>
-          </div>
           <!-- Contact -->
           <div class="text-center">
             <h3 class="text-2xl text-blue-500 font-mono">Contact</h3>

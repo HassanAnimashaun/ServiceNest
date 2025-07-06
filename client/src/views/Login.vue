@@ -24,12 +24,25 @@ export default {
           password: this.password,
         });
 
-        console.log('Login successful:', response.data.message);
+        const token = response.data?.token;
+        if (!token) {
+          throw new Error('Token missing in response');
+        }
 
+        // ✅ Store the token securely
+        localStorage.setItem('token', token);
+
+        // Optional: set a flag for route guards
+        localStorage.setItem('isLoggedIn', 'true');
+
+        // Redirect to dashboard
         this.$router.push('/dashboard');
       } catch (err) {
+        console.error('Login error:', err);
         this.error =
-          err.response?.data?.error || 'Login failed. Please try again.';
+          err.response?.data?.error ||
+          err.message ||
+          'Login failed. Please try again.';
       }
     },
   },

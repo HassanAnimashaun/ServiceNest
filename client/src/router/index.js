@@ -43,5 +43,15 @@ const router = createRouter({
     },
   ],
 });
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+
+  if (to.meta.requiresAuth && !token) {
+    // User not logged in → redirect to login
+    return next('/login');
+  }
+
+  next(); // Allow navigation
+});
 
 export default router;
