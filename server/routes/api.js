@@ -59,23 +59,6 @@ router.post("/reservations", async (req, res) => {
   res.status(201).json(saved);
 });
 
-// GET /api/reservations
-router.get("/reservations", async (req, res) => {
-  try {
-    const db = getDb();
-    const reservations = await db
-      .collection("reservations")
-      .find()
-      .sort({ createdAt: -1 })
-      .toArray();
-
-    res.status(200).json(reservations);
-  } catch (err) {
-    console.error("Error fetching reservations:", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 // GET /api/login
 
 router.post("/login", async (req, res) => {
