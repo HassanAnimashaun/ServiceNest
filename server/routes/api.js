@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const fetch = require("node-fetch");
 const { getDb } = require("../db");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 require("dotenv").config();
 const { verifyToken, requireAdmin } = require("../middleware/auth");
 
