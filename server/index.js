@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: "https://villinwraps.onrender.com",
+    origin: "https://villinwraps.vercel.app",
     credentials: true,
   })
 );
