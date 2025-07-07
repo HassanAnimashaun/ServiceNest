@@ -10,10 +10,12 @@ app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
-app.use(cors{
-  origin: "https://your-frontend-name.vercel.app",
-  credentials: true,
-});
+app.use(
+  cors({
+    origin: "https://your-frontend-name.vercel.app",
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.json());
 
