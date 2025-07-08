@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import SearchBar from '../components/SearchBar.vue';
+import Api from '@/services/Api';
 // import ProfileCard from '../components/ProfileCards.vue';
 
 export default {
@@ -19,21 +20,17 @@ export default {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No token found. Please log in.');
 
-      const res = await fetch('http://localhost:3000/api/reservations', {
+      const res = await Api().get('/reservations', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if (!res.ok) {
-        throw new Error('Unauthorized or failed to fetch reservations');
-      }
-
-      const data = await res.json();
-      this.reservations = data;
+      this.reservations = res.data;
     } catch (err) {
-      this.error = err.message || 'Something went wrong';
-      console.error('Fetch error:', err);
+      this.error =
+        err.response?.data?.error || err.message || 'Something went wrong';
+      console.error('API error:', err);
     }
   },
 };
