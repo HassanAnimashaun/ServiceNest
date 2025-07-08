@@ -326,6 +326,7 @@ export default {
       } catch (err) {
         console.error('Error submitting form', err);
       }
+      console.log('API Base URL:', import.meta.env.VITE_API_BASE_URL);
     },
     beforeUnmount() {
       // cleanup URLs
