@@ -1,8 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const fetch = require("node-fetch");
-const { fetch } = require("undici");
 const { getDb } = require("../db");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
