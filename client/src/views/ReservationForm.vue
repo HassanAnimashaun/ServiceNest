@@ -206,6 +206,7 @@
 <script>
 import Multiselect from '@vueform/multiselect';
 import '@vueform/multiselect/themes/default.css';
+import Api from '@/services/Api';
 
 export default {
   name: 'ReservationForm',
@@ -249,9 +250,8 @@ export default {
   methods: {
     async fetchMakes() {
       try {
-        const res = await fetch('http://localhost:3000/api/makes');
-        const data = await res.json();
-        this.makeOptions = data.Results.map((m) => m.Make_Name);
+        const res = await Api().get('/makes');
+        this.makeOptions = res.data.Results.map((m) => m.Make_Name);
       } catch (err) {
         console.error('Error fetching makes:', err);
       }
@@ -260,15 +260,13 @@ export default {
     async fetchModelsForMake() {
       if (!this.vehicle.make) return;
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/models/${this.vehicle.make}`
-        );
-        const data = await res.json();
-        this.modelOptions = data.Results.map((m) => m.Model_Name);
+        const res = await Api().get(`/models/${this.vehicle.make}`);
+        this.modelOptions = res.data.Results.map((m) => m.Model_Name);
       } catch (err) {
         console.error('Error fetching models:', err);
       }
     },
+
     handleFileUpload(event) {
       const newFiles = Array.from(event.target.files);
 
@@ -299,7 +297,7 @@ export default {
     async submitForm() {
       try {
         const payload = {
-          name: `${this.user.fname} ${this.user.lname} `,
+          name: `${this.user.fname} ${this.user.lname}`,
           email: this.user.email,
           phone: this.user.phone,
           vehicle: this.vehicle,
@@ -307,27 +305,26 @@ export default {
           note: this.description,
           images: this.imageFiles.map((file) => file.name),
         };
-        const res = await fetch('http://localhost:3000/api/reservations', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
 
-        if (res.ok) {
-          const result = await res.json();
-          console.log('Reservation created:', result);
+        const res = await Api().post('/reservations', payload);
+
+        if (res.status === 201) {
+          console.log('Reservation created:', res.data);
           this.$router.push({
             name: 'ConfirmationPage',
-            query: { name: this.user.fname, number: result.reservationNumber },
+            query: {
+              name: this.user.fname,
+              number: res.data.reservationNumber,
+            },
           });
         } else {
           throw new Error('Failed to create reservation');
         }
       } catch (err) {
-        console.error('Error submitting form', err);
+        console.error('Error submitting form:', err);
       }
-      console.log('API Base URL:', import.meta.env.VITE_API_BASE_URL);
     },
+
     beforeUnmount() {
       // cleanup URLs
       this.imagePreviews.forEach((url) => URL.revokeObjectURL(url));
