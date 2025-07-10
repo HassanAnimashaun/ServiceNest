@@ -67,28 +67,7 @@ router.get("/models/:make", async (req, res) => {
   }
 });
 
-// POST /api/reservations (using native MongoDB driver)
-router.post("/reservations", async (req, res) => {
-  const db = getDb();
-  const reservationNumber = `VW-${Date.now()}`;
-
-  const reservation = {
-    ...req.body,
-    reservationNumber,
-    createdAt: new Date(),
-  };
-
-  const { insertedId } = await db
-    .collection("reservations")
-    .insertOne(reservation);
-  const saved = await db
-    .collection("reservations")
-    .findOne({ _id: insertedId });
-
-  res.status(201).json(saved);
-});
-
-// GET /api/login
+// Admin login
 
 router.post("/login", async (req, res) => {
   const db = getDb();
@@ -109,10 +88,5 @@ router.post("/login", async (req, res) => {
   res.status(200).json({ token, message: "Login successful" });
 });
 
-router.get("/reservations", verifyToken, requireAdmin, async (req, res) => {
-  const db = getDb();
-  const reservations = await db.collection("reservations").find().toArray();
-  res.json(reservations);
-});
 
 module.exports = router;
