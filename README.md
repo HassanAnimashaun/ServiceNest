@@ -31,3 +31,10 @@ VillinWraps is a full-stack web application built for an auto detailing and vehi
    git clone https://github.com/yourusername/villinwraps.git
    cd villinwraps
    ```
+
+## 📂 Project Structure
+
+- `client` - Vue frontend application
+- `server` - Express API with controllers, routes and models
+
+Server routes for reservations are defined in `server/routes/reservations.js` and business logic lives in `server/controllers`.
