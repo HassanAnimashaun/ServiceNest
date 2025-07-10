@@ -1,6 +1,6 @@
-# VillinWraps
+# ServiceNest
 
-VillinWraps is a full-stack web application built for an auto detailing and vehicle wrap business. It allows clients to submit reservation requests for services such as full wraps, tinting, and more, and enables admins to view and manage those reservations through a dashboard.
+ServiceNest is a full-stack web application built for an auto detailing and vehicle wrap business. It allows clients to submit reservation requests for services such as full wraps, tinting, and more, and enables admins to view and manage those reservations through a dashboard.
 
 ## 🚀 Features
 
@@ -28,8 +28,8 @@ VillinWraps is a full-stack web application built for an auto detailing and vehi
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/yourusername/villinwraps.git
-   cd villinwraps
+   git clone https://github.com/yourusername/ServiceNest.git
+   cd ServiceNest
    ```
 
 ## 📂 Project Structure
