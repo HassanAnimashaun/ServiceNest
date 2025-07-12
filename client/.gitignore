@@ -31,3 +31,14 @@ coverage
 
 logs/
 tests_output/
+
+# Environment files
+.env
+.env.*    # Includes .env.local, .env.production, etc.
+
+# Build & deployment folders
+.vercel
+client/node_modules
+client/dist
+server/node_modules
+server/dist
