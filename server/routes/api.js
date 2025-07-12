@@ -4,7 +4,12 @@ const router = express.Router();
 const { getDb } = require("../db");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
-const { verifyToken, requireAdmin } = require("../middleware/auth");
+const {
+  verifyToken,
+  requireAdmin,
+  requirePlan,
+  requireRole,
+} = require("../middleware/auth");
 
 // Fetch all vehicle makes
 router.get("/makes", async (req, res) => {
@@ -80,7 +85,12 @@ router.post("/login", async (req, res) => {
   if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
   const token = jwt.sign(
-    { username: user.username, role: user.role },
+    {
+      username: user.username,
+      role: user.role,
+      plan: user.plan || "free",
+      clientId: user.clientId,
+    },
     process.env.JWT_SECRET,
     { expiresIn: "2h" }
   );
@@ -88,5 +98,20 @@ router.post("/login", async (req, res) => {
   res.status(200).json({ token, message: "Login successful" });
 });
 
+// Dashboard
+
+router.get("/dashboard", verifyToken, requireAdmin, (req, res) => {
+  res.json({ message: "Welcome to the dashboard ", user: req.user });
+});
+
+// Reservation
+router.get("/reservations", verifyToken, requireAdmin, async (req, res) => {
+  const db = getDb();
+  const reservations = await db
+    .collection("reservations")
+    .find({ clientId: req.user.clientId })
+    .toArray();
+  res.json(reservations);
+});
 
 module.exports = router;

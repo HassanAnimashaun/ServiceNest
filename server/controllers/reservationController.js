@@ -6,6 +6,7 @@ async function createReservation(req, res) {
   const reservationNumber = `VW-${Date.now()}`;
   const reservation = {
     ...req.body,
+    clientId: req.user.clientId,
     reservationNumber,
     createdAt: new Date(),
   };
@@ -25,10 +26,34 @@ async function createReservation(req, res) {
 async function getAllReservations(req, res) {
   const db = getDb();
   try {
-    const reservations = await db.collection("reservations").find().toArray();
+    const reservations = await db
+      .collection("reservations")
+      .find({ clientId: req.user.clientId })
+      .toArray();
     res.json(reservations);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch reservations" });
+  }
+}
+
+async function getMyReservations(req, res) {
+  const db = getDb();
+
+  try {
+    const clientId = req.user.clientId;
+
+    if (!clientId) {
+      return res.status(401).json({ error: "Client ID missing from token" });
+    }
+
+    const reservations = await db
+      .collection("reservations")
+      .find({ clientId })
+      .toArray();
+
+    res.json(reservations);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch your reservations" });
   }
 }
 

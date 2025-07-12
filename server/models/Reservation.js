@@ -1,7 +1,14 @@
 const mongoose = require("mongoose");
 
 const ReservationSchema = new mongoose.Schema({
-  name: String,
+  clientId: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
   email: String,
   phone: String,
   vehicle: {
@@ -10,7 +17,10 @@ const ReservationSchema = new mongoose.Schema({
     model: String,
     color: String,
   },
-  service: String,
+  service: {
+    type: String,
+    required: true,
+  },
   note: String,
   images: [String],
   reservationNumber: {
@@ -22,8 +32,10 @@ const ReservationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  status: String,
+  status: {
+    type: String,
+    default: "pending",
+  },
 });
 
-// This line makes the model accessible to other files
 module.exports = mongoose.model("Reservation", ReservationSchema);

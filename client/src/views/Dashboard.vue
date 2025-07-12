@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import SearchBar from '../components/SearchBar.vue';
-import Api from '@/services/Api';
+import api from '@/services/Api';
 // import ProfileCard from '../components/ProfileCards.vue';
 
 export default {
@@ -16,21 +16,21 @@ export default {
     };
   },
   async mounted() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/login');
+      return;
+    }
+
     try {
-      const token = localStorage.getItem('token');
-      if (!token) throw new Error('No token found. Please log in.');
-
-      const res = await Api().get('/reservations', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      this.reservations = res.data;
-    } catch (err) {
-      this.error =
-        err.response?.data?.error || err.message || 'Something went wrong';
-      console.error('API error:', err);
+      const axiosInstance = api(token);
+      const response = await axiosInstance.get('/reservations');
+      this.reservations = response.data;
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      localStorage.removeItem('token');
+      this.$router.push('/login');
     }
   },
 };

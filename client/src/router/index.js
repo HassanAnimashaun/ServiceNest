@@ -32,14 +32,10 @@ const router = createRouter({
         {
           path: 'profile/:id',
           name: 'dashboard-profile',
+          meta: { requiresAuth: true },
           component: ReservationProfile,
         },
       ],
-    },
-    {
-      path: '/profile',
-      name: 'Profile',
-      component: ReservationProfile,
     },
   ],
 });

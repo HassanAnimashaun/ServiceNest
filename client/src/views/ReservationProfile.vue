@@ -61,6 +61,7 @@
 
 <script>
 import SearchBar from '@/components/SearchBar.vue';
+import api from '@/services/Api';
 
 export default {
   name: 'ReservationProfile',
@@ -72,6 +73,23 @@ export default {
   },
   methods: {
     // Add your component methods here
+  },
+  async mounted() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.$router.push('/login');
+      return;
+    }
+
+    try {
+      const axiosInstance = api(token);
+      const response = await axiosInstance.get('/reservations');
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      localStorage.removeItem('token');
+      this.$router.push('/login');
+    }
   },
 };
 </script>

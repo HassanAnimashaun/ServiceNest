@@ -4,6 +4,7 @@ require("dotenv").config();
 let dbConnection;
 
 const uri = process.env.MONGODB_URI;
+console.log("MONGODB_URI:", process.env.MONGODB_URI);
 module.exports = {
   connectToDb: (cb) => {
     MongoClient.connect(uri)

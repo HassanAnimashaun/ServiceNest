@@ -132,10 +132,6 @@ export default {
         </div>
       </form>
     </div>
-    <div
-      class="text-center m-3 text-red-500 font-semibold"
-      v-html="error"
-    ></div>
   </div>
 </template>
 

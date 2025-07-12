@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const requireAdmin = requireRole(["admin"]);
 
 function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -16,11 +17,25 @@ function verifyToken(req, res, next) {
   }
 }
 
-function requireAdmin(req, res, next) {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ error: "Admin access only" });
-  }
-  next();
+function requirePlan(allowedPlans = []) {
+  return function (req, res, next) {
+    const userPlan = req.user?.plan;
+    if (!userPlan || !allowedPlans.includes(userPlan)) {
+      return res
+        .status(403)
+        .json({ error: "Access denied: insufficient plan level" });
+    }
+    next();
+  };
 }
 
-module.exports = { verifyToken, requireAdmin };
+function requireRole(allowedRoles = []) {
+  return function (req, res, next) {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res
+        .status(403)
+        .json({ error: "Access denied: insufficient role" });
+    }
+  };
+}
+module.exports = { verifyToken, requirePlan, requireRole, requireAdmin };
