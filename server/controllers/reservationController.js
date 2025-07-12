@@ -1,4 +1,4 @@
-const { getDb } = require("./db");
+const { getDb } = require("../db");
 const { ObjectId } = require("mongodb");
 
 async function createReservation(req, res) {
