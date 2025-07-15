@@ -30,7 +30,7 @@
           Dashboard
         </button>
         <button
-          @click="logout"
+          @click="handleLogout"
           class="block w-full text-left py-1 hover:text-red-600"
         >
           Log Out
@@ -58,8 +58,8 @@
           Dashboard
         </button>
         <button
-          @click="logout"
-          class="block w-full text-left hover:text-red-600"
+          @click="handleLogout"
+          class="block w-full text-left py-1 hover:text-red-600"
         >
           Log Out
         </button>
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth';
 export default {
   name: 'SearchBar',
   data() {
@@ -107,6 +108,8 @@ export default {
       query: '',
       result: null,
       showMenu: false,
+      auth: useAuthStore(),
+
       reservations: [
         { number: '12345', name: 'John Doe', service: 'Full Wrap' },
         { number: '67890', name: 'Jane Smith', service: 'Tint' },
@@ -123,15 +126,13 @@ export default {
         (r) => r.number.toLowerCase() === this.query.trim().toLowerCase()
       );
     },
+
     goToDashboard() {
       console.log('go to dashboard');
     },
 
-    logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('isLoggedIn'); // if used
-      localStorage.removeItem('username');
-      this.$router.push('/login');
+    handleLogout() {
+      this.auth.logout();
     },
 
     handleClickOutside(event) {

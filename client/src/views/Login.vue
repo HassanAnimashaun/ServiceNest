@@ -1,7 +1,9 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script>
-import Login from '/src/services/Login';
+import Login from '@/services/Login';
+import { useAuthStore } from '@/stores/auth';
+
 export default {
+  name: 'AdminLogin',
   data() {
     return {
       error: '',
@@ -9,33 +11,29 @@ export default {
       username: '',
       password: '',
       rememberMe: false,
+      auth: useAuthStore(),
     };
+  },
+  mounted() {
+    if (this.auth.isAuthenticated) {
+      this.$router.push('/dashboard');
+    }
   },
   methods: {
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
 
-    // BACKEND API CALL
     async login() {
       try {
-        const response = await Login.login({
+        await Login.login({
           username: this.username,
           password: this.password,
         });
 
-        const token = response.data?.token;
-        if (!token) {
-          throw new Error('Token missing in response');
-        }
+        await this.auth.fetchUser();
 
-        // ✅ Store the token securely
-        localStorage.setItem('token', token);
-
-        // Optional: set a flag for route guards
-        localStorage.setItem('isLoggedIn', 'true');
-
-        // Redirect to dashboard
+        // ✅ Redirect to dashboard
         this.$router.push('/dashboard');
       } catch (err) {
         console.error('Login error:', err);

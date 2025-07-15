@@ -4,6 +4,7 @@ import Dashboard from '@/views/Dashboard.vue';
 import ReservationProfile from '@/views/ReservationProfile.vue';
 import Reservation from '@/views/ReservationForm.vue';
 import ConfirmationPage from '@/views/ConfirmationPage.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,22 +33,32 @@ const router = createRouter({
         {
           path: 'profile/:id',
           name: 'dashboard-profile',
-          meta: { requiresAuth: true },
           component: ReservationProfile,
+          meta: { requiresAuth: true },
         },
       ],
     },
   ],
 });
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token');
 
-  if (to.meta.requiresAuth && !token) {
-    // User not logged in → redirect to login
+router.beforeEach(async (to, from, next) => {
+  const auth = useAuthStore();
+
+  if (auth.loading) {
+    await auth.fetchUser();
+  }
+
+  const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
+
+  if (requiresAuth && !auth.isAuthenticated) {
     return next('/login');
   }
 
-  next(); // Allow navigation
+  if (to.path === '/login' && auth.isAuthenticated) {
+    return next('/dashboard');
+  }
+
+  next();
 });
 
 export default router;

@@ -62,33 +62,35 @@
 <script>
 import SearchBar from '@/components/SearchBar.vue';
 import api from '@/services/Api';
+import { useAuthStore } from '@/stores/auth';
 
 export default {
   name: 'ReservationProfile',
   components: { SearchBar },
   data() {
     return {
-      // Add your component data here
+      auth: useAuthStore(),
+      reservation: null,
+      error: '',
     };
   },
-  methods: {
-    // Add your component methods here
-  },
   async mounted() {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    await this.auth.fetchUser();
+
+    if (!this.auth.isAuthenticated) {
       this.$router.push('/login');
       return;
     }
 
     try {
-      const axiosInstance = api(token);
-      const response = await axiosInstance.get('/reservations');
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-      localStorage.removeItem('token');
-      this.$router.push('/login');
+      // This assumes your route is like /dashboard/profile/:id
+      const id = this.$route.params.id;
+      const response = await api().get(`/reservations/${id}`);
+      this.reservation = response.data;
+      console.log('Loaded reservation:', this.reservation);
+    } catch (err) {
+      console.error('Failed to load reservation:', err);
+      this.error = 'Failed to load reservation';
     }
   },
 };

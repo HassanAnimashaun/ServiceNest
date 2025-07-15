@@ -1,11 +1,10 @@
 <script setup>
-import { RouterView } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+
+const auth = useAuthStore();
+auth.fetchUser();
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <RouterView />
-  </div>
+  <router-view />
 </template>
-
-<style></style>

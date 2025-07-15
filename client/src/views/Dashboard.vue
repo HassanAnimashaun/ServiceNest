@@ -1,13 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
+import { useAuthStore } from '@/stores/auth';
 import SearchBar from '../components/SearchBar.vue';
 import api from '@/services/Api';
-// import ProfileCard from '../components/ProfileCards.vue';
 
 export default {
   components: {
     SearchBar,
-    // ProfileCard,
   },
   data() {
     return {
@@ -16,21 +15,21 @@ export default {
     };
   },
   async mounted() {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    const auth = useAuthStore();
+
+    await auth.fetchUser();
+
+    if (!auth.isAuthenticated) {
       this.$router.push('/login');
       return;
     }
 
     try {
-      const axiosInstance = api(token);
-      const response = await axiosInstance.get('/reservations');
+      const response = await api().get('/reservations');
       this.reservations = response.data;
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-      localStorage.removeItem('token');
-      this.$router.push('/login');
+    } catch (err) {
+      console.error(err);
+      auth.logout();
     }
   },
 };
