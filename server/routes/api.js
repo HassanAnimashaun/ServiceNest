@@ -95,7 +95,27 @@ router.post("/login", async (req, res) => {
     { expiresIn: "2h" }
   );
 
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // auto-switch based on env
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    maxAge: 2 * 60 * 60 * 1000,
+  });
+
   res.status(200).json({ token, message: "Login successful" });
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+  });
+  res.status(200).json({ message: "Logged out" });
+});
+
+router.get("/me", verifyToken, (req, res) => {
+  res.status(200).json({ user: req.user });
 });
 
 // Dashboard

@@ -4,14 +4,17 @@ const cors = require("cors");
 const apiRoutes = require("./routes/api");
 const reservationRoutes = require("./routes/reservations");
 const { connectToDb } = require("./db");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 app.use(express.json());
 
+app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://villinwraps.vercel.app"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 
