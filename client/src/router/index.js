@@ -25,18 +25,23 @@ const router = createRouter({
       component: Login,
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: ReservationProfile,
+    },
+    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
       meta: { requiresAuth: true },
-      children: [
-        {
-          path: 'profile/:id',
-          name: 'dashboard-profile',
-          component: ReservationProfile,
-          meta: { requiresAuth: true },
-        },
-      ],
+      // children: [
+      //   {
+      //     path: 'profile/:id',
+      //     name: 'dashboard-profile',
+      //     component: ReservationProfile,
+      //     // meta: { requiresAuth: true },
+      //   },
+      // ],
     },
   ],
 });

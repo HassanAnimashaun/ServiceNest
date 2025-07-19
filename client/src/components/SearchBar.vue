@@ -40,9 +40,9 @@
 
     <!-- User Icon (hidden on mobile) -->
     <details class="relative border border-transparent hidden md:block">
-      <summary class="w-10 h-10 select-none cursor-pointer list-none">
+      <summary class="w-15 h-15 select-none cursor-pointer list-none">
         <img
-          src="/src/components/icons/user.png"
+          src="/public/logo.png"
           alt="User"
           class="rounded-full hover:ring-2 hover:ring-slate-400"
         />

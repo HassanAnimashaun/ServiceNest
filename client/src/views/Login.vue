@@ -33,7 +33,6 @@ export default {
 
         await this.auth.fetchUser();
 
-        // ✅ Redirect to dashboard
         this.$router.push('/dashboard');
       } catch (err) {
         console.error('Login error:', err);
@@ -48,11 +47,9 @@ export default {
 </script>
 
 <template>
-  <div
-    class="min-h-screen flex flex-col items-center justify-center bg-gray-100"
-  >
+  <div class="flex flex-col items-center justify-center">
     <div class="flex flex-col items-center gap-6 mb-6">
-      <img src="/src/components/icons/user.png" alt="profile" class="w-30" />
+      <img src="/public/logo.png" alt="profile" class="w-40" />
       <h2 class="text-2xl font-semibold text-center">Admin Login</h2>
     </div>
 

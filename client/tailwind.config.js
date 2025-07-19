@@ -1,11 +1,18 @@
 // tailwind.config.js
-module.exports = {
-  mode: 'jit', // This enables JIT mode
-  purge: ['./src/**/*.{html,js,vue}'], // Make sure to set the correct purge paths
+export default {
+  content: ['./index.html', './src/**/*.{vue,js,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          primary: 'var(--color-primary)', // #0074D9
+          secondary: 'var(--color-secondary)', // #003B49
+          accent: 'var(--color-accent)', // #00BFA6
+          bg: 'var(--color-bg)', // #F8F9FA
+          text: 'var(--color-text)', // #212529
+        },
+      },
+    },
   },
-  variants: {},
   plugins: [],
-}
-
+};

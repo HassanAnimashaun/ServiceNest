@@ -29,7 +29,6 @@ app.use(
   })
 );
 
-
 app.use("/api", apiRoutes);
 app.use("/api/reservations", reservationRoutes);
 
