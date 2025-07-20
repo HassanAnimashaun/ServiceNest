@@ -18,11 +18,4 @@ router.get(
   requireRole(["admin", "staff"]),
   controller.getAllReservations
 );
-// Admin: get reservation by id
-router.get(
-  "/",
-  verifyToken,
-  requireRole(["admin", "staff"]),
-  controller.getAllReservations
-);
 module.exports = router;
