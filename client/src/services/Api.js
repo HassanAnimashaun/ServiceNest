@@ -1,21 +1,14 @@
 import axios from 'axios';
 
-export default (token = null) => {
-  const baseURL = `${import.meta.env.VITE_API_BASE_URL}api`;
+export default () => {
+  let baseURL = import.meta.env.VITE_API_BASE_URL;
+  if (!baseURL) throw new Error('VITE_API_BASE_URL is not defined');
 
-  if (!baseURL) {
-    throw new Error('VITE_API_BASE_URL is not defined');
-  }
-
-  const headers = {};
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+  // Ensure trailing slash
+  if (!baseURL.endsWith('/')) baseURL += '/';
 
   return axios.create({
-    baseURL,
-    headers,
+    baseURL: baseURL + 'api',
     withCredentials: true,
   });
 };
