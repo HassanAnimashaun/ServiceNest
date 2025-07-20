@@ -84,12 +84,20 @@ router.post("/login", async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
+  const clientId =
+    user.clientId ||
+    (process.env.NODE_ENV === "development" ? "villinwraps" : null);
+
+  if (!clientId) {
+    return res.status(500).json({ error: "No clientId assigned to user" });
+  }
+
   const token = jwt.sign(
     {
       username: user.username,
       role: user.role,
       plan: user.plan || "free",
-      clientId: user.clientId,
+      clientId: clientId,
     },
     process.env.JWT_SECRET,
     { expiresIn: "2h" }

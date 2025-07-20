@@ -34,6 +34,8 @@ function requireRole(allowedRoles = []) {
         .status(403)
         .json({ error: "Access denied: insufficient role" });
     }
+    next();
   };
 }
+
 module.exports = { verifyToken, requirePlan, requireRole, requireAdmin };
