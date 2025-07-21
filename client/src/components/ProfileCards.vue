@@ -1,34 +1,50 @@
 <script>
 export default {
-  name: 'ProfileCards',
-  data() {
-    return {
-      // Add your component data here
-      resNumber: 9101201929,
-      name: 'Hassan Animashaun',
-      date: '09/23/25',
-    };
+  name: 'ProfileCard',
+  props: {
+    reservation: Object,
+  },
+  computed: {
+    formattedDate() {
+      return new Date(this.reservation.createdAt).toLocaleDateString();
+    },
   },
   methods: {
-    // Add your component methods here
+    goToProfile() {
+      this.$router.push(`/reservations/${this.reservation._id}`);
+    },
   },
 };
 </script>
 
 <template>
-  <RouterLink>
-    <div class="flex w-[90%] mb-2">
-      <div
-        class="bg-red-800 w-full text-white flex justify-between items-center p-4 rounded"
-      >
-        <p># {{ resNumber }}</p>
-        <p>Hassan Animashaun</p>
-        <p>05/03/25</p>
-      </div>
+  <div
+    class="bg-white shadow rounded-xl p-4 mb-4 hover:shadow-md cursor-pointer transition"
+    @click="goToProfile"
+  >
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="text-lg font-semibold">{{ reservation.name }}</h2>
+      <span class="text-sm text-gray-500">
+        {{ formattedDate }}
+      </span>
     </div>
-  </RouterLink>
+
+    <div class="text-gray-700 mb-1">
+      <span class="font-medium">Service:</span>
+      <p>
+        {{
+          Array.isArray(reservation.service)
+            ? reservation.service.join(', ')
+            : reservation.service
+        }}
+      </p>
+    </div>
+
+    <div class="text-gray-700 text-sm">
+      <span class="font-medium">Reservation #:</span>
+      {{ reservation.reservationNumber || 'Not Assigned' }}
+    </div>
+  </div>
 </template>
 
-<style scoped>
-/* Add your component styles here */
-</style>
+<style scoped></style>

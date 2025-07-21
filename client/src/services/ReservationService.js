@@ -3,6 +3,8 @@ import api from './Api';
 
 export default {
   createReservation(reservationData) {
-    return api().post('/reservations', reservationData);
+    return api().post('/reservations', reservationData, {
+      withCredentials: true,
+    });
   },
 };

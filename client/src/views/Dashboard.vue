@@ -2,11 +2,13 @@
 <script>
 import { useAuthStore } from '@/stores/auth';
 import SearchBar from '../components/SearchBar.vue';
+import ProfileCards from '@/components/ProfileCards.vue';
 import api from '@/services/Api';
 
 export default {
   components: {
     SearchBar,
+    ProfileCards,
   },
   data() {
     return {
@@ -43,25 +45,11 @@ export default {
 
     <div v-if="error" class="text-red-500 mb-3">{{ error }}</div>
 
-    <div v-if="reservations.length">
-      <div
-        v-for="r in reservations"
-        :key="r._id"
-        class="bg-white p-4 mb-4 rounded-xl shadow"
-      >
-        <h2 class="font-bold text-lg">{{ r.name }}</h2>
-        <p>Service: {{ r.service }}</p>
-        <p>
-          Vehicle: {{ r.vehicle.year }} {{ r.vehicle.make }}
-          {{ r.vehicle.model }}
-        </p>
-        <p>Status: {{ r.status }}</p>
-        <p>Reservation #: {{ r.reservationNumber }}</p>
-        <p>Created: {{ new Date(r.createdAt).toLocaleString() }}</p>
-      </div>
-    </div>
-
-    <div v-else class="text-gray-700">No reservations found.</div>
+    <ProfileCards
+      v-for="res in reservations"
+      :key="res._id"
+      :reservation="res"
+    />
   </div>
 </template>
 

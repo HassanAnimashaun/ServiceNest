@@ -9,7 +9,7 @@ const controller = require("../controllers/reservationController");
 const router = express.Router();
 
 // Create a new reservation (public endpoint)
-router.post("/", controller.createReservation);
+router.post("/", verifyToken, controller.createReservation);
 
 // Admin: get all reservations
 router.get(
