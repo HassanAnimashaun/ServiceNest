@@ -3,7 +3,6 @@ const requireAdmin = requireRole(["admin"]);
 
 function verifyToken(req, res, next) {
   const token = req.cookies.token;
-
   if (!token) return res.status(403).json({ error: "No token provided" });
 
   try {
@@ -29,6 +28,7 @@ function requirePlan(allowedPlans = []) {
 
 function requireRole(allowedRoles = []) {
   return function (req, res, next) {
+    console.log("Checking if role is in:", allowedRoles);
     if (!req.user || !allowedRoles.includes(req.user.role)) {
       return res
         .status(403)

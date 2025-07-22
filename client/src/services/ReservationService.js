@@ -7,4 +7,10 @@ export default {
       withCredentials: true,
     });
   },
+
+  getAllReservations() {
+    return api().get('/reservations', {
+      withCredentials: true,
+    });
+  },
 };

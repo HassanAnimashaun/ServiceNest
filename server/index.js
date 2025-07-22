@@ -29,8 +29,8 @@ app.use(
   })
 );
 
-app.use("/api", apiRoutes);
 app.use("/api/reservations", reservationRoutes);
+app.use("/api", apiRoutes);
 
 connectToDb((err) => {
   if (!err) {

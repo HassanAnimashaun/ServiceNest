@@ -3,7 +3,7 @@
 import { useAuthStore } from '@/stores/auth';
 import SearchBar from '../components/SearchBar.vue';
 import ProfileCards from '@/components/ProfileCards.vue';
-import api from '@/services/Api';
+import ReservationService from '@/services/ReservationService';
 
 export default {
   components: {
@@ -18,7 +18,6 @@ export default {
   },
   async mounted() {
     const auth = useAuthStore();
-
     await auth.fetchUser();
 
     if (!auth.isAuthenticated) {
@@ -27,10 +26,11 @@ export default {
     }
 
     try {
-      const response = await api().get('/reservations');
+      const response = await ReservationService.getAllReservations(); // ✅ use service here
+      console.log('Reservations fetched:', response.data);
       this.reservations = response.data;
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching reservations:', err);
       auth.logout();
     }
   },

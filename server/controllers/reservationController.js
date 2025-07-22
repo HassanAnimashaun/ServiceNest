@@ -29,9 +29,11 @@ async function getAllReservations(req, res) {
     const reservations = await db
       .collection("reservations")
       .find({ clientId: req.user.clientId })
+      .sort({ createdAt: -1 })
       .toArray();
     res.json(reservations);
   } catch (err) {
+    console.error("Error fetching reservations:", err);
     res.status(500).json({ error: "Failed to fetch reservations" });
   }
 }
