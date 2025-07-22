@@ -44,4 +44,4 @@ server/node_modules
 server/dist
 
 # Axios config
-client/src/services/Api.js
+/client/src/services/Api.js
