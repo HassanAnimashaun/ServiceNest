@@ -13,4 +13,10 @@ export default {
       withCredentials: true,
     });
   },
+
+  getReservationById(id) {
+    return api().get(`/reservations/${id}`, {
+      withCredentials: true,
+    });
+  },
 };

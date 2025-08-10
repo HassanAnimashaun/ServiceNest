@@ -25,23 +25,18 @@ const router = createRouter({
       component: Login,
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: ReservationProfile,
-    },
-    {
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
       meta: { requiresAuth: true },
-      // children: [
-      //   {
-      //     path: 'profile/:id',
-      //     name: 'dashboard-profile',
-      //     component: ReservationProfile,
-      //     // meta: { requiresAuth: true },
-      //   },
-      // ],
+      children: [
+        {
+          path: 'profile/:id',
+          name: 'dashboard-profile',
+          component: ReservationProfile,
+          meta: { requiresAuth: true },
+        },
+      ],
     },
   ],
 });
@@ -49,7 +44,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore();
 
-  if (auth.loading) {
+  if (!auth.user && !auth.loading) {
     await auth.fetchUser();
   }
 

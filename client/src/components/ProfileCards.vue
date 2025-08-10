@@ -11,7 +11,10 @@ export default {
   },
   methods: {
     goToProfile() {
-      this.$router.push(`/reservations/${this.reservation._id}`);
+      this.$router.push({
+        name: 'dashboard-profile',
+        params: { id: this.reservation._id },
+      });
     },
   },
 };

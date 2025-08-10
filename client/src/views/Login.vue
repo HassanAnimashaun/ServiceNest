@@ -49,7 +49,7 @@ export default {
 <template>
   <div class="flex flex-col items-center justify-center">
     <div class="flex flex-col items-center gap-6 mb-6">
-      <img src="/public/logo.png" alt="profile" class="w-40" />
+      <img src="/logo.png" alt="profile" class="w-40" />
       <h2 class="text-2xl font-semibold text-center">Admin Login</h2>
     </div>
 

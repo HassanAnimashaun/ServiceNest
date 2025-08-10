@@ -26,7 +26,7 @@ export default {
     }
 
     try {
-      const response = await ReservationService.getAllReservations(); // ✅ use service here
+      const response = await ReservationService.getAllReservations();
       console.log('Reservations fetched:', response.data);
       this.reservations = response.data;
     } catch (err) {
@@ -41,15 +41,21 @@ export default {
   <SearchBar />
 
   <div class="p-4 text-black">
-    <h1 class="text-xl font-bold mb-4">All Reservations</h1>
+    <h1 v-if="$route.name === 'Dashboard'" class="text-xl font-bold mb-4">
+      All Reservations
+    </h1>
 
-    <div v-if="error" class="text-red-500 mb-3">{{ error }}</div>
+    <div v-if="$route.name === 'Dashboard'">
+      <div v-if="error" class="text-red-500 mb-3">{{ error }}</div>
 
-    <ProfileCards
-      v-for="res in reservations"
-      :key="res._id"
-      :reservation="res"
-    />
+      <ProfileCards
+        v-for="res in reservations"
+        :key="res._id"
+        :reservation="res"
+      />
+    </div>
+
+    <router-view></router-view>
   </div>
 </template>
 

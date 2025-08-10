@@ -1,14 +1,15 @@
 <template>
-  <!-- Add your reservation profile content here -->
-  <SearchBar />
   <div class="min-h-screen flex flex-col items-center justify-center">
     <div class="max-w bg-white p-6 rounded-2xl shadow-lg">
       <div class="p-8 grid gap-8">
         <!-- Info -->
         <div class="">
           <h2 class="text-3xl text-blue-500 font-mono font-bold">
-            #9012948492
+            {{ reservation.name }}
           </h2>
+          <h3 class="text-l text-blue-500 font-mono font-bold">
+            {{ reservation.reservationNumber }}
+          </h3>
           <p class="font-mono">Service: Wrap, Tint</p>
         </div>
 
@@ -16,17 +17,17 @@
           <!-- Contact -->
           <div class="text-center">
             <h3 class="text-2xl text-blue-500 font-mono">Contact</h3>
-            <p class="font-mono">Name: Hassan Animashaun</p>
-            <p class="font-mono">Email: test123@gmail.com</p>
-            <p class="font-mono">Phone: 9105274574</p>
+            <p class="font-mono">{{ reservation.name }}</p>
+            <p class="font-mono">{{ reservation.email }}</p>
+            <p class="font-mono">{{ reservation.phone }}</p>
           </div>
           <!-- Vehicle -->
           <div class="text-center">
             <h3 class="text-2xl text-blue-500 font-mono">Vehicle</h3>
-            <p class="font-mono">Year: 1999</p>
-            <p class="font-mono">Make: Honda</p>
-            <p class="font-mono">Model: Civic</p>
-            <p class="font-mono">Color: Silver</p>
+            <p class="font-mono">{{ reservation.vehicle.year }}</p>
+            <p class="font-mono">{{ reservation.vehicle.make }}</p>
+            <p class="font-mono">{{ reservation.vehicle.model }}</p>
+            <p class="font-mono">{{ reservation.vehicle.color }}</p>
           </div>
         </div>
 
@@ -60,37 +61,35 @@
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar.vue';
-import api from '@/services/Api';
 import { useAuthStore } from '@/stores/auth';
+import ReservationService from '@/services/ReservationService';
 
 export default {
   name: 'ReservationProfile',
-  components: { SearchBar },
+
   data() {
     return {
-      auth: useAuthStore(),
-      reservation: null,
+      reservation: {},
       error: '',
     };
   },
   async mounted() {
-    await this.auth.fetchUser();
+    const auth = useAuthStore();
+    await auth.fetchUser();
 
-    if (!this.auth.isAuthenticated) {
+    if (!auth.isAuthenticated) {
       this.$router.push('/login');
       return;
     }
 
+    const resId = this.$route.params.id;
     try {
-      // This assumes your route is like /dashboard/profile/:id
-      const id = this.$route.params.id;
-      const response = await api().get(`/reservations/${id}`);
+      const response = await ReservationService.getReservationById(resId);
+      console.log('Reservations fetched:', response.data);
       this.reservation = response.data;
-      console.log('Loaded reservation:', this.reservation);
     } catch (err) {
-      console.error('Failed to load reservation:', err);
-      this.error = 'Failed to load reservation';
+      console.error('Error fetching reservations:', err);
+      auth.logout();
     }
   },
 };

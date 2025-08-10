@@ -42,7 +42,7 @@
     <details class="relative border border-transparent hidden md:block">
       <summary class="w-15 h-15 select-none cursor-pointer list-none">
         <img
-          src="/public/logo.png"
+          src="/logo.png"
           alt="User"
           class="rounded-full hover:ring-2 hover:ring-slate-400"
         />
@@ -128,7 +128,7 @@ export default {
     },
 
     goToDashboard() {
-      console.log('go to dashboard');
+      this.$router.push('/dashboard');
     },
 
     handleLogout() {
