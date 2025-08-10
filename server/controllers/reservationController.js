@@ -71,7 +71,7 @@ async function getReservationById(req, res) {
       .findOne({ _id: new ObjectId(id) });
     if (!reservation)
       return res.status(404).json({ error: "Reservation not found" });
-    res.json(reservation);
+    return res.json(reservation);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch reservation" });
   }

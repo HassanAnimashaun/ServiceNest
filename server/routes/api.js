@@ -10,6 +10,7 @@ const {
   requirePlan,
   requireRole,
 } = require("../middleware/auth");
+const { ObjectId } = require("mongodb");
 
 // Fetch all vehicle makes
 router.get("/makes", async (req, res) => {
@@ -140,6 +141,29 @@ router.get("/reservations", verifyToken, requireAdmin, async (req, res) => {
     .find({ clientId: req.user.clientId })
     .toArray();
   res.json(reservations);
+});
+
+// Reservation by Id
+router.get("/reservations/:id", verifyToken, async (req, res) => {
+  const db = getDb();
+  const reservationId = req.params.id;
+
+  try {
+    const reservation = await db.collection("reservations").findOne({
+      _id: new ObjectId(reservationId),
+      clientId: req.user.clientId,
+    });
+
+    if (!reservation) {
+      return res
+        .status(404)
+        .json({ error: "Reservation not found or unauthorized." });
+    }
+    res.json(reservation);
+  } catch (err) {
+    console.error("Error fetching reservation:", err.message);
+    res.status(500).json({ error: "Failed to fetch reservation." });
+  }
 });
 
 module.exports = router;

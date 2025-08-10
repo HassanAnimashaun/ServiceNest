@@ -6,4 +6,7 @@ const controller = require("../controllers/reservationController");
 router.post("/", verifyToken, controller.createReservation);
 
 router.get("/", verifyToken, controller.getAllReservations);
+
+router.get("/:id", verifyToken, controller.getReservationById);
+
 module.exports = router;
