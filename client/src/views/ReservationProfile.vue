@@ -1,58 +1,78 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center">
-    <div class="max-w bg-white p-6 rounded-2xl shadow-lg">
-      <div class="p-8 grid gap-8">
-        <!-- Info -->
-        <div class="">
+  <div
+    class="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50"
+  >
+    <div class="w-full max-w-5xl bg-white p-6 rounded-2xl shadow-lg">
+      <!-- Header -->
+      <div class="mb-8 text-center">
+        <a href="`tel:{{ reservation.name }}`">
           <h2 class="text-3xl text-blue-500 font-mono font-bold">
             {{ reservation.name }}
           </h2>
-          <h3 class="text-l text-blue-500 font-mono font-bold">
-            {{ reservation.reservationNumber }}
-          </h3>
-          <p class="font-mono">Service: Wrap, Tint</p>
-        </div>
+        </a>
+        <h3 class="text-lg text-blue-500 font-mono font-bold">
+          {{ reservation.reservationNumber }}
+        </h3>
+        <p class="font-mono">Service: Wrap, Tint</p>
+      </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-20">
-          <!-- Contact -->
-          <div class="text-center">
-            <h3 class="text-2xl text-blue-500 font-mono">Contact</h3>
-            <p class="font-mono">{{ reservation.name }}</p>
+      <!-- Info Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Contact -->
+        <div
+          class="flex flex-col items-center p-4 gap-3 bg-gray-100 rounded-xl shadow-sm min-h-[200px]"
+        >
+          <h3 class="text-2xl text-blue-500 font-mono mb-2">Contact</h3>
+          <p class="font-mono">{{ reservation.name }}</p>
+          <a
+            :href="`mailto:${reservation.email}`"
+            target="_self"
+            rel="noopener"
+          >
             <p class="font-mono">{{ reservation.email }}</p>
+          </a>
+          <a :href="`tel:${reservation.phone}`" target="_self" rel="noopener">
             <p class="font-mono">{{ reservation.phone }}</p>
-          </div>
-          <!-- Vehicle -->
-          <div class="text-center">
-            <h3 class="text-2xl text-blue-500 font-mono">Vehicle</h3>
-            <p class="font-mono">{{ reservation.vehicle.year }}</p>
-            <p class="font-mono">{{ reservation.vehicle.make }}</p>
-            <p class="font-mono">{{ reservation.vehicle.model }}</p>
-            <p class="font-mono">{{ reservation.vehicle.color }}</p>
-          </div>
+          </a>
         </div>
 
-        <div class="grid grid-col-1 md:grid-cols-1 gap-8">
-          <!-- Description -->
-          <div>
-            <h3 class="text-2xl text-blue-500 font-mono text-center">
-              Description
-            </h3>
-            <p class="font-mono mt-2 text-left text-balance">
-              Is simply dummy text of the printing and typesetting industry.
-              Lorem is simply dummy text of the printing and typesetting
-              industry.Is simply dummy text of the printing and typesetting
-              industry. Lorem is simply dummy text of the printing and
-              typesetting industry.Is simply dummy text of the printing and
-              typesetting industry. Lorem is simply dummy text of the printing
-              and typesetting industry.
-            </p>
-          </div>
+        <!-- Vehicle -->
+        <div
+          class="flex flex-col items-center p-4 gap-3 bg-gray-100 rounded-xl shadow-sm min-h-[200px]"
+        >
+          <h3 class="text-2xl text-blue-500 font-mono mb-2">Vehicle</h3>
+          <p class="font-mono">{{ reservation.vehicle?.year }}</p>
+          <p class="font-mono">{{ reservation.vehicle?.make }}</p>
+          <p class="font-mono">{{ reservation.vehicle?.model }}</p>
+          <p class="font-mono">{{ reservation.vehicle?.color }}</p>
+        </div>
+      </div>
 
-          <!-- Photos -->
-          <div>
-            <h3 class="text-2xl text-blue-500 font-mono text-center">Photos</h3>
-            <!-- Replace with actual photos -->
-            <div class="w-32 h-32 bg-gray-200 mt-4 rounded"></div>
+      <!-- Description + Photos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <!-- Description -->
+        <div
+          class="flex flex-col p-4 bg-gray-100 rounded-xl shadow-sm min-h-[250px]"
+        >
+          <h3 class="text-2xl text-blue-500 font-mono text-center mb-2">
+            Description
+          </h3>
+          <p class="font-mono mt-2 text-left flex-1">
+            {{ reservation.note || 'No description provided.' }}
+          </p>
+        </div>
+
+        <!-- Photos -->
+        <div
+          class="flex flex-col items-center p-4 bg-gray-100 rounded-xl shadow-sm min-h-[250px]"
+        >
+          <h3 class="text-2xl text-blue-500 font-mono text-center mb-2">
+            Photos
+          </h3>
+          <div class="grid grid-cols-2 gap-4 mt-4 w-full">
+            <!-- Placeholder if no images -->
+            <div class="w-full aspect-square bg-gray-200 rounded"></div>
+            <div class="w-full aspect-square bg-gray-200 rounded"></div>
           </div>
         </div>
       </div>
