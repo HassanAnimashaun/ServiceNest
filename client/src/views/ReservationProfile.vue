@@ -5,11 +5,9 @@
     <div class="w-full max-w-5xl bg-white p-6 rounded-2xl shadow-lg">
       <!-- Header -->
       <div class="mb-8 text-center">
-        <a href="`tel:{{ reservation.name }}`">
-          <h2 class="text-3xl text-blue-500 font-mono font-bold">
-            {{ reservation.name }}
-          </h2>
-        </a>
+        <h2 class="text-3xl text-blue-500 font-mono font-bold">
+          {{ reservation.name }}
+        </h2>
         <h3 class="text-lg text-blue-500 font-mono font-bold">
           {{ reservation.reservationNumber }}
         </h3>

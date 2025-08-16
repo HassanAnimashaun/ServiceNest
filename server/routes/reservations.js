@@ -9,4 +9,6 @@ router.get("/", verifyToken, controller.getAllReservations);
 
 router.get("/:id", verifyToken, controller.getReservationById);
 
+router.get("/search", verifyToken, controller.searchReservations);
+
 module.exports = router;

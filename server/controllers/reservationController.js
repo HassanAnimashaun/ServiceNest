@@ -38,24 +38,36 @@ async function getAllReservations(req, res) {
   }
 }
 
-async function getMyReservations(req, res) {
+async function searchReservations(req, res) {
+  res.set("Cache-Control", "no-store");
   const db = getDb();
+  const clientId = req.user.clientId;
+  const query = (req.query.q || "").trim();
+
+  if (!clientId) {
+    return res.status(401).json({ error: "Client ID missing from token" });
+  }
+
+  if (!query) return res.json([]); // no query → empty result
 
   try {
-    const clientId = req.user.clientId;
-
-    if (!clientId) {
-      return res.status(401).json({ error: "Client ID missing from token" });
-    }
-
-    const reservations = await db
+    const results = await db
       .collection("reservations")
-      .find({ clientId })
+      .find({
+        clientId,
+        $or: [
+          { reservationNumber: { $regex: `${query}$`, $options: "i" } },
+          { name: { $regex: query, $options: "i" } },
+          { vehicleModel: { $regex: query, $options: "i" } },
+        ],
+      })
+      .sort({ createdAt: -1 })
       .toArray();
 
-    res.json(reservations);
+    return res.json(results);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch your reservations" });
+    console.error("Error searching reservations:", err);
+    res.status(500).json({ error: "Failed to search reservations" });
   }
 }
 
@@ -81,4 +93,5 @@ module.exports = {
   createReservation,
   getAllReservations,
   getReservationById,
+  searchReservations,
 };

@@ -16,6 +16,16 @@ export default {
       error: '',
     };
   },
+  methods: {
+    async searchReservation(query) {
+      if (!query.trim()) return;
+      const res = await fetch(`/api/reservations/search?q=${query}`, {
+        headers: { Authorization: `Bearer ${this.auth.user?.token}` },
+      });
+      const data = await res.json();
+      this.reservations = data;
+    },
+  },
   async mounted() {
     const auth = useAuthStore();
     await auth.fetchUser();
