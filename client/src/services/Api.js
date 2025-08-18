@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export default () => {
-  let baseURL = import.meta.env.VITE_API_BASE_URL;
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
+export default () => {
   return axios.create({
     baseURL: baseURL,
     withCredentials: true,

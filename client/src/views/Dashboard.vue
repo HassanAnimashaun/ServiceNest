@@ -2,7 +2,7 @@
 <script>
 import { useAuthStore } from '@/stores/auth';
 import SearchBar from '../components/SearchBar.vue';
-import ProfileCards from '@/components/ProfileCards.vue';
+import ProfileCards from '../components/ProfileCards.vue';
 import ReservationService from '@/services/ReservationService';
 
 export default {
@@ -55,7 +55,7 @@ export default {
       All Reservations
     </h1>
 
-    <div v-if="$route.name === 'Dashboard'">
+    <div v-if="$route.name === 'Dashboard'" class="space-y-4">
       <div v-if="error" class="text-red-500 mb-3">{{ error }}</div>
 
       <ProfileCards
