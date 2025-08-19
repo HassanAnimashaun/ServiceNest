@@ -6,13 +6,13 @@ export default {
   name: 'AdminLogin',
   data() {
     return {
-      error: '',
-      showPassword: false,
       username: '',
       password: '',
+      showPassword: false,
       rememberMe: false,
+      error: '',
+      loading: false,
       auth: useAuthStore(),
-      isLoading: false,
     };
   },
   mounted() {
@@ -26,16 +26,20 @@ export default {
     },
 
     async login() {
+      this.error = '';
       this.loading = true;
 
       try {
+        // Login request
         await Login.login({
           username: this.username,
           password: this.password,
         });
 
+        // Fetch user info from /api/me (requires cookie)
         await this.auth.fetchUser();
 
+        // Redirect to dashboard
         this.$router.push('/dashboard');
       } catch (err) {
         console.error('Login error:', err);
@@ -43,6 +47,8 @@ export default {
           err.response?.data?.error ||
           err.message ||
           'Login failed. Please try again.';
+      } finally {
+        this.loading = false;
       }
     },
   },
@@ -50,15 +56,13 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100"
-  >
-    <div class="flex flex-col items-center gap-4 mb-6">
-      <img src="/logo.png" alt="profile" class="w-32 sm:w-40" />
-      <h2 class="text-xl sm:text-2xl font-semibold text-center">Admin Login</h2>
+  <div class="flex flex-col items-center justify-center min-h-screen px-4">
+    <div class="flex flex-col items-center gap-6 mb-6">
+      <img src="/logo.png" alt="Logo" class="w-40" />
+      <h2 class="text-2xl font-semibold text-center">Admin Login</h2>
     </div>
 
-    <div class="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg">
+    <div class="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg">
       <form @submit.prevent="login" novalidate>
         <!-- Username -->
         <div class="relative mb-5">
@@ -69,11 +73,10 @@ export default {
           </div>
           <input
             type="text"
-            id="username"
             v-model="username"
-            class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Username"
             required
+            class="pl-10 pr-4 py-2 w-full rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
 
@@ -86,21 +89,25 @@ export default {
           </div>
           <input
             :type="showPassword ? 'text' : 'password'"
-            id="password"
             v-model="password"
-            class="w-full pl-10 pr-10 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Password"
             required
+            class="pl-10 pr-10 py-2 w-full rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
           />
           <button
             type="button"
-            @click="togglePassword"
-            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500"
+            @click.prevent="togglePassword"
+            class="absolute inset-y-0 right-0 pr-2 flex items-center"
           >
-            <span v-if="showPassword" class="material-symbols-outlined">
+            <span
+              v-if="showPassword"
+              class="material-symbols-outlined text-gray-500"
+            >
               visibility
             </span>
-            <span v-else class="material-symbols-outlined">visibility_off</span>
+            <span v-else class="material-symbols-outlined text-gray-500">
+              visibility_off
+            </span>
           </button>
         </div>
 
@@ -108,8 +115,8 @@ export default {
         <div class="flex items-center mb-5">
           <input
             type="checkbox"
-            id="remember"
             v-model="rememberMe"
+            id="remember"
             class="mr-2"
           />
           <label for="remember" class="text-sm text-gray-700">
@@ -117,13 +124,13 @@ export default {
           </label>
         </div>
 
-        <!-- Error message -->
-        <p v-if="error" class="text-red-500 text-sm mb-4">{{ error }}</p>
+        <!-- Error Message -->
+        <p v-if="error" class="text-red-500 text-sm mb-3">{{ error }}</p>
 
-        <!-- Submit Button -->
+        <!-- Submit -->
         <button
           type="submit"
-          class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition"
+          class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2"
           :disabled="loading"
         >
           <span v-if="loading">Logging in...</span>
@@ -134,9 +141,4 @@ export default {
   </div>
 </template>
 
-<style>
-/* Make sure icons inside inputs don't block clicks */
-.pointer-events-none {
-  pointer-events: none;
-}
-</style>
+<style scoped></style>
