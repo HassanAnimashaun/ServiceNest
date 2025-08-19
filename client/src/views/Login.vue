@@ -54,7 +54,7 @@ export default {
     </div>
 
     <div class="max-w-md bg-white p-6 rounded-2xl shadow-lg">
-      <form @submit.prevent="login" method="post" novalidate="true">
+      <form @submit="login" method="post" novalidate="true">
         <div class="relative mb-5">
           <div
             class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -84,7 +84,7 @@ export default {
             placeholder="Password"
             required
           />
-          <div class="absolute inset-y-6 right-2 flex items-center">
+          <div class="absolute inset-y-0 right-2 flex items-center">
             <button
               type="button"
               @click.prevent="togglePassword"
@@ -108,7 +108,6 @@ export default {
             type="checkbox"
             id="remember"
             v-model="rememberMe"
-            @change="handleRememberMeChange"
             class="mr-2"
           />
           <label for="remember" class="text-sm text-gray-700">
@@ -120,7 +119,6 @@ export default {
           <button
             type="submit"
             class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-5"
-            @click="login"
           >
             Login
           </button>
