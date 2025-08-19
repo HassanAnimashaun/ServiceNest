@@ -1,6 +1,7 @@
 <script>
 import Login from '@/services/Login';
 import { useAuthStore } from '@/stores/auth';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 export default {
   name: 'AdminLogin',
@@ -12,6 +13,7 @@ export default {
       password: '',
       rememberMe: false,
       auth: useAuthStore(),
+      isLoading: false,
     };
   },
   mounted() {
@@ -25,7 +27,7 @@ export default {
     },
 
     async login() {
-      console.log('Login triggered!', this.username, this.password);
+      this.loading = true;
 
       try {
         await Login.login({
@@ -123,8 +125,10 @@ export default {
         <button
           type="submit"
           class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition"
+          :disabled="loading"
         >
-          Login
+          <span v-if="loading">Logging in...</span>
+          <span v-else>Login</span>
         </button>
       </form>
     </div>
