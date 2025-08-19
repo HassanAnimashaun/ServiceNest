@@ -32,7 +32,7 @@ export default {
         });
 
         await this.auth.fetchUser();
-
+        console.log('Login triggered!', this.username, this.password);
         this.$router.push('/dashboard');
       } catch (err) {
         console.error('Login error:', err);
@@ -54,7 +54,7 @@ export default {
     </div>
 
     <div class="max-w-md bg-white p-6 rounded-2xl shadow-lg">
-      <form @submit.prevent="login" method="post" novalidate="true">
+      <form @submit.prevent="login" method="post">
         <div class="relative mb-5">
           <div
             class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
