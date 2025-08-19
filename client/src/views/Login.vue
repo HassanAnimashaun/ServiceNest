@@ -25,6 +25,8 @@ export default {
     },
 
     async login() {
+      console.log('Login triggered!', this.username, this.password);
+
       try {
         await Login.login({
           username: this.username,
@@ -32,7 +34,7 @@ export default {
         });
 
         await this.auth.fetchUser();
-        console.log('Login triggered!', this.username, this.password);
+
         this.$router.push('/dashboard');
       } catch (err) {
         console.error('Login error:', err);
@@ -47,14 +49,17 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center">
-    <div class="flex flex-col items-center gap-6 mb-6">
-      <img src="/logo.png" alt="profile" class="w-40" />
-      <h2 class="text-2xl font-semibold text-center">Admin Login</h2>
+  <div
+    class="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100"
+  >
+    <div class="flex flex-col items-center gap-4 mb-6">
+      <img src="/logo.png" alt="profile" class="w-32 sm:w-40" />
+      <h2 class="text-xl sm:text-2xl font-semibold text-center">Admin Login</h2>
     </div>
 
-    <div class="max-w-md bg-white p-6 rounded-2xl shadow-lg">
-      <form @submit.prevent="login" method="post">
+    <div class="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg">
+      <form @submit.prevent="login" novalidate>
+        <!-- Username -->
         <div class="relative mb-5">
           <div
             class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -65,12 +70,13 @@ export default {
             type="text"
             id="username"
             v-model="username"
-            @keydown.enter="login"
-            class="pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="username"
+            class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Username"
             required
           />
         </div>
+
+        <!-- Password -->
         <div class="relative mb-5">
           <div
             class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -81,31 +87,23 @@ export default {
             :type="showPassword ? 'text' : 'password'"
             id="password"
             v-model="password"
-            @keydown.enter="login"
-            class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full pl-10 pr-10 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Password"
             required
           />
-          <div class="absolute inset-y-0 right-2 flex items-center">
-            <button
-              type="button"
-              @click.prevent="togglePassword"
-              @touchstart.prevent="togglePassword"
-              class="cursor-pointer"
-            >
-              <span
-                v-if="showPassword"
-                class="material-symbols-outlined text-gray-500"
-              >
-                visibility
-              </span>
-              <span v-else class="material-symbols-outlined text-gray-500">
-                visibility_off
-              </span>
-            </button>
-          </div>
+          <button
+            type="button"
+            @click="togglePassword"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500"
+          >
+            <span v-if="showPassword" class="material-symbols-outlined">
+              visibility
+            </span>
+            <span v-else class="material-symbols-outlined">visibility_off</span>
+          </button>
         </div>
 
+        <!-- Remember Me -->
         <div class="flex items-center mb-5">
           <input
             type="checkbox"
@@ -118,17 +116,24 @@ export default {
           </label>
         </div>
 
-        <div class="text-center">
-          <button
-            type="submit"
-            class="w-full bg-green-600 text-white rounded-lg py-3 text-sm hover:bg-green-700 transition mb-5 min-h-[44px] touch-manipulation"
-          >
-            Login
-          </button>
-        </div>
+        <!-- Error message -->
+        <p v-if="error" class="text-red-500 text-sm mb-4">{{ error }}</p>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition"
+        >
+          Login
+        </button>
       </form>
     </div>
   </div>
 </template>
 
-<style></style>
+<style>
+/* Make sure icons inside inputs don't block clicks */
+.pointer-events-none {
+  pointer-events: none;
+}
+</style>
