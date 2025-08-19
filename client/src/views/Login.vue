@@ -65,6 +65,7 @@ export default {
             type="text"
             id="username"
             v-model="username"
+            @keydown.enter="login"
             class="pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             placeholder="username"
             required
@@ -80,6 +81,7 @@ export default {
             :type="showPassword ? 'text' : 'password'"
             id="password"
             v-model="password"
+            @keydown.enter="login"
             class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Password"
             required
@@ -88,6 +90,7 @@ export default {
             <button
               type="button"
               @click.prevent="togglePassword"
+              @touchstart.prevent="togglePassword"
               class="cursor-pointer"
             >
               <span
