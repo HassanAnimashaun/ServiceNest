@@ -1,7 +1,6 @@
 <script>
 import Login from '@/services/Login';
 import { useAuthStore } from '@/stores/auth';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 export default {
   name: 'AdminLogin',
