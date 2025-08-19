@@ -66,9 +66,7 @@ export default {
       <form @submit.prevent="login" novalidate>
         <!-- Username -->
         <div class="relative mb-5">
-          <div
-            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-          >
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <span class="material-symbols-outlined text-gray-500">person</span>
           </div>
           <input
@@ -82,9 +80,7 @@ export default {
 
         <!-- Password -->
         <div class="relative mb-5">
-          <div
-            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-          >
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <span class="material-symbols-outlined text-gray-500">key</span>
           </div>
           <input
@@ -99,15 +95,8 @@ export default {
             @click.prevent="togglePassword"
             class="absolute inset-y-0 right-0 pr-2 flex items-center"
           >
-            <span
-              v-if="showPassword"
-              class="material-symbols-outlined text-gray-500"
-            >
-              visibility
-            </span>
-            <span v-else class="material-symbols-outlined text-gray-500">
-              visibility_off
-            </span>
+            <span v-if="showPassword" class="material-symbols-outlined text-gray-500">visibility</span>
+            <span v-else class="material-symbols-outlined text-gray-500">visibility_off</span>
           </button>
         </div>
 
@@ -119,9 +108,7 @@ export default {
             id="remember"
             class="mr-2"
           />
-          <label for="remember" class="text-sm text-gray-700">
-            Remember Me
-          </label>
+          <label for="remember" class="text-sm text-gray-700">Remember Me</label>
         </div>
 
         <!-- Error Message -->
