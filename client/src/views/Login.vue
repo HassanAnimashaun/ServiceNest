@@ -121,7 +121,7 @@ export default {
         <div class="text-center">
           <button
             type="submit"
-            class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-5"
+            class="w-full bg-green-600 text-white rounded-lg py-3 text-sm hover:bg-green-700 transition mb-5 min-h-[44px] touch-manipulation"
           >
             Login
           </button>
