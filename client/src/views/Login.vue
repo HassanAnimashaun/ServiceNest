@@ -7,7 +7,7 @@ export default {
   data() {
     return {
       username: 'Villinwraps',
-      password: 'VillinWraps!2025',
+      password: 'VillinWraps!2024',
       showPassword: false,
       rememberMe: false,
       error: '',
