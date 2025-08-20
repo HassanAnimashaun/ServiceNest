@@ -123,7 +123,7 @@ export default {
 
         <!-- Submit -->
         <button
-          type="submit"
+          type="button"
           @submit="login"
           class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2"
           :disabled="loading"
