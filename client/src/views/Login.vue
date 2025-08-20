@@ -6,8 +6,8 @@ export default {
   name: 'AdminLogin',
   data() {
     return {
-      username: '',
-      password: '',
+      username: 'Villinwraps',
+      password: 'VillinWraps!2025',
       showPassword: false,
       rememberMe: false,
       error: '',
