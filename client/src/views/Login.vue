@@ -135,4 +135,8 @@ export default {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .button[type="submit"]{
+    position: relative,
+    z-index: 50;
+</style>
