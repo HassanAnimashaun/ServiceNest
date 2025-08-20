@@ -124,7 +124,7 @@ export default {
         <!-- Submit -->
         <button
           type="button"
-          @submit="login"
+          @click="login"
           class="login-ctn w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2"
           :disabled="loading"
         >
