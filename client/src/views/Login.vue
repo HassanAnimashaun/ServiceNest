@@ -137,7 +137,7 @@ export default {
 
 <style scoped>
   button[type="submit"]{
-    position: relative,
+    position: relative;
     z-index: 50;
     }
 </style>
