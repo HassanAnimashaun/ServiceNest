@@ -139,4 +139,5 @@ export default {
   button[type="submit"]{
     position: relative,
     z-index: 50;
+    }
 </style>
