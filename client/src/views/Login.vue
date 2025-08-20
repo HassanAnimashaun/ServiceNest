@@ -57,7 +57,7 @@ export default {
     </div>
 
     <div class="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg">
-      <form @submit.prevent="login" novalidate>
+      <form @submit="login" novalidate>
         <!-- Username -->
         <div class="relative mb-5">
           <div
