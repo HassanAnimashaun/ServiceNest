@@ -57,7 +57,7 @@ export default {
     </div>
 
     <div class="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg">
-      <form novalidate>
+      
         <!-- Username -->
         <div class="relative mb-5">
           <div
@@ -121,7 +121,6 @@ export default {
         <!-- Error Message -->
         <p v-if="error" class="text-red-500 text-sm mb-3">{{ error }}</p>
 
-        <!-- Submit -->
        <!-- Submit -->
 <button
   type="button"
