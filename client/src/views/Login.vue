@@ -57,7 +57,7 @@ export default {
     </div>
 
     <div class="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg">
-      <form @submit="login" novalidate>
+      <form novalidate>
         <!-- Username -->
         <div class="relative mb-5">
           <div
@@ -124,6 +124,7 @@ export default {
         <!-- Submit -->
         <button
           type="submit"
+          @submit="login"
           class="w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2"
           :disabled="loading"
         >
