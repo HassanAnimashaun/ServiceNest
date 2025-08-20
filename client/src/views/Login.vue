@@ -122,15 +122,17 @@ export default {
         <p v-if="error" class="text-red-500 text-sm mb-3">{{ error }}</p>
 
         <!-- Submit -->
-        <button
-          type="button"
-          @click="login"
-          class="login-ctn w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2"
-          :disabled="loading"
-        >
-          <span v-if="loading">Logging in...</span>
-          <span v-else>Login</span>
-        </button>
+       <!-- Submit -->
+<button
+  type="button"
+  @click="login"
+  class="login-ctn w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2 active:bg-green-800"
+  :disabled="loading"
+>
+  <span v-if="loading">Logging in...</span>
+  <span v-else>Login</span>
+</button>
+
       </form>
     </div>
   </div>
