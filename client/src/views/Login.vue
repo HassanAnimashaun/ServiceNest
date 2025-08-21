@@ -16,7 +16,7 @@ export default {
     };
   },
   mounted() {
-    if (this.auth.isAuthenticated) {
+    if (!this.auth.loading && this.auth.isAuthenticated) {
       this.$router.push('/dashboard');
     }
   },
@@ -26,6 +26,7 @@ export default {
     },
 
     async login() {
+      console.log('Login button clicked in Safari ✅');
       try {
         const loginRes = await Login.login({
           username: this.username,
@@ -57,77 +58,80 @@ export default {
     </div>
 
     <div class="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg">
-      <!-- Username -->
-      <div class="relative mb-5">
-        <div
-          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-        >
-          <span class="material-symbols-outlined text-gray-500">person</span>
-        </div>
-        <input
-          type="text"
-          v-model="username"
-          placeholder="Username"
-          required
-          class="pl-10 pr-4 py-2 w-full rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-        />
-      </div>
-
-      <!-- Password -->
-      <div class="relative mb-5">
-        <div
-          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-        >
-          <span class="material-symbols-outlined text-gray-500">key</span>
-        </div>
-        <input
-          :type="showPassword ? 'text' : 'password'"
-          v-model="password"
-          placeholder="Password"
-          required
-          class="pl-10 pr-10 py-2 w-full rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
-        />
-        <button
-          type="button"
-          @click.prevent="togglePassword"
-          class="absolute inset-y-0 right-0 pr-2 flex items-center"
-        >
-          <span
-            v-if="showPassword"
-            class="material-symbols-outlined text-gray-500"
+      <form @submit.prevent="login" novalidate>
+        <!-- Username -->
+        <div class="relative mb-5">
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
           >
-            visibility
-          </span>
-          <span v-else class="material-symbols-outlined text-gray-500">
-            visibility_off
-          </span>
+            <span class="material-symbols-outlined text-gray-500">person</span>
+          </div>
+          <input
+            type="text"
+            v-model="username"
+            placeholder="Username"
+            required
+            class="pl-10 pr-4 py-2 w-full rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="relative mb-5">
+          <div
+            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+          >
+            <span class="material-symbols-outlined text-gray-500">key</span>
+          </div>
+          <input
+            :type="showPassword ? 'text' : 'password'"
+            v-model="password"
+            placeholder="Password"
+            required
+            class="pl-10 pr-10 py-2 w-full rounded-lg bg-gray-50 border border-gray-300 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+          />
+          <button
+            type="button"
+            @click.prevent="togglePassword"
+            class="absolute inset-y-0 right-0 pr-2 flex items-center"
+          >
+            <span
+              v-if="showPassword"
+              class="material-symbols-outlined text-gray-500"
+            >
+              visibility
+            </span>
+            <span v-else class="material-symbols-outlined text-gray-500">
+              visibility_off
+            </span>
+          </button>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="flex items-center mb-5">
+          <input
+            type="checkbox"
+            v-model="rememberMe"
+            id="remember"
+            class="mr-2"
+          />
+          <label for="remember" class="text-sm text-gray-700">
+            Remember Me
+          </label>
+        </div>
+
+        <!-- Error Message -->
+        <p v-if="error" class="text-red-500 text-sm mb-3">{{ error }}</p>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="login-ctn w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2 active:bg-green-800"
+          :disabled="loading"
+        >
+          <span v-if="loading">Logging in...</span>
+          <span v-else>Login</span>
         </button>
-      </div>
-
-      <!-- Remember Me -->
-      <div class="flex items-center mb-5">
-        <input
-          type="checkbox"
-          v-model="rememberMe"
-          id="remember"
-          class="mr-2"
-        />
-        <label for="remember" class="text-sm text-gray-700">Remember Me</label>
-      </div>
-
-      <!-- Error Message -->
-      <p v-if="error" class="text-red-500 text-sm mb-3">{{ error }}</p>
-
-      <!-- Submit -->
-      <button
-        type="button"
-        @click="login"
-        class="login-ctn w-full bg-green-600 text-white rounded-lg py-2 text-sm hover:bg-green-700 transition mb-2 active:bg-green-800"
-        :disabled="loading"
-      >
-        <span v-if="loading">Logging in...</span>
-        <span v-else>Login</span>
-      </button>
+      </form>
     </div>
   </div>
 </template>
