@@ -203,14 +203,13 @@ CREATE TABLE package_prices (
 --   package_name_snapshot — preserves name even if package renamed
 --   total_price           — preserves price even if package repriced
 --
--- INSERT blocked for clients via RLS.
--- Booking creation goes through Edge Function:
---   /supabase/functions/create-booking/index.ts
--- Edge Function validates:
+-- INSERT is blocked for clients via RLS.
+-- Booking creation is expected to go through a trusted server-side mechanism
+-- (e.g., an Edge Function using the service role key) that validates:
 --   - slot availability
 --   - service area (client address within provider radius)
 --   - working hours (slot within provider's open hours)
--- ------------------------------------------------------------
+-- Keep this comment in sync with the actual implementation path in the repo.
 CREATE TABLE bookings (
   id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   client_id               UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
