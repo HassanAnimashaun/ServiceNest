@@ -1,6 +1,6 @@
 import ResetPassword from '@/components/auth/ResetPassword'
 
-function RequestPasswordPage() {
+function ResetPasswordPage() {
   return <ResetPassword />
 }
-export default RequestPasswordPage
+export default ResetPasswordPage

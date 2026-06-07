@@ -11,12 +11,13 @@ function Modal({ trigger, triggerClassName, children }: ModalProps) {
 
   function handleBackdropClick(e: MouseEvent<HTMLDialogElement>) {
     if (e.target === dialogRef.current) dialogRef.current.close()
+    console.log()
   }
 
   return (
     <>
       <button
-        className={`sn-btn-secondary ${triggerClassName}`}
+        className={`sn-btn-secondary ${triggerClassName ?? ''}`}
         onClick={() => dialogRef.current?.showModal()}
       >
         {trigger}
@@ -30,12 +31,12 @@ function Modal({ trigger, triggerClassName, children }: ModalProps) {
         <div className="flex justify-evenly mt-4">
           <p className="text-sm text-[#888780] mb-4">
             Already have an account?{' '}
-            <span
+            <button
               onClick={() => dialogRef.current?.close()}
               className="text-base text-[#1A6FD4] hover:underline cursor-pointer"
             >
               Log in
-            </span>
+            </button>
           </p>
         </div>
         <button
