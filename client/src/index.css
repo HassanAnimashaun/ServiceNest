@@ -30,6 +30,7 @@
   --color-amber-text: #412402;
 
   /* Semantic */
+  --color-green-text: #27500a;
   --color-red-error: #ff0000;
   --color-red-bg: #fcebeb;
   --color-red-text: #791f1f;
@@ -273,5 +274,10 @@
 
   .sn-error {
     color: var(--color-red-text);
+    font-size: 16px;
+  }
+  .sn-noti {
+    color: var(--color-green-text);
+    font-size: 16px;
   }
 }

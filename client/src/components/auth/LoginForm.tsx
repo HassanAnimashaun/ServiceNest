@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabaseClient'
 import '@/index.css'
 
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 
 function LoginForm() {
   const [email, setEmail] = useState('')
@@ -10,6 +10,8 @@ function LoginForm() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
+  const ResetPassword = location.state?.passwordReset
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -65,7 +67,10 @@ function LoginForm() {
           </div>
         </div>
 
-        <div className="mb-3">{error && <p className="sn-error">{error}</p>}</div>
+        <div className="mb-3">
+          {error && <p className="sn-error">{error}</p>}
+          {ResetPassword && <p className="sn-noti">Password reset succesful</p>}
+        </div>
 
         {/* LOGIN */}
         <div className="flex justify-center">
