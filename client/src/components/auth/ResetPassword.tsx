@@ -14,11 +14,15 @@ function ResetPassword() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        setStep('password-reset')
-      }
-    })
+    const hash = window.location.hash
+    const isRecovery = hash.includes('type=recovery')
+    if (isRecovery) {
+      supabase.auth.onAuthStateChange((event) => {
+        if (event === 'PASSWORD_RECOVERY') {
+          setStep('password-reset')
+        }
+      })
+    }
   }, [])
 
   const handleReset = async (e: React.FormEvent) => {
@@ -26,7 +30,7 @@ function ResetPassword() {
     setError('')
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: '/ResetPassword',
+      redirectTo: `${window.location.origin}/reset`,
     })
     if (error) {
       setError(error.message)
@@ -40,7 +44,6 @@ function ResetPassword() {
     setError('')
     if (password !== confirmPassword) {
       setError("Passwords don't match")
-      console.log(confirmPassword)
       return
     }
     const { error } = await supabase.auth.updateUser({ password })
@@ -49,12 +52,12 @@ function ResetPassword() {
       setError(error.message)
       return
     }
-    navigate('/login')
+    navigate('/login', { state: { passwordReset: true } })
   }
 
   if (step === 'email-sent') return <EmailSent email={email} />
 
-  if (step === 'password-reset')
+  if (step === 'password-reset') {
     return (
       <UpdatePassword
         password={password}
@@ -65,7 +68,7 @@ function ResetPassword() {
         onSubmit={handleUpdate}
       />
     )
-
+  }
   return <RequestReset email={email} setEmail={setEmail} onSubmit={handleReset} error={error} />
 }
 
