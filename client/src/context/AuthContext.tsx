@@ -6,7 +6,6 @@ import type { User, Session } from '@supabase/supabase-js'
 interface AuthContextType {
   user: User | null
   role: 'provider' | 'client' | null
-  session: Session | null
   loading: boolean
   signOut: () => Promise<void>
 }
@@ -48,9 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut()
   }
   return (
-    <AuthContext.Provider value={{ user, role, loading, session, signOut }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, role, loading, signOut }}>{children}</AuthContext.Provider>
   )
 }
 

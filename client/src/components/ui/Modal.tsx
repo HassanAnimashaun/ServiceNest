@@ -11,7 +11,6 @@ function Modal({ trigger, triggerClassName, children }: ModalProps) {
 
   function handleBackdropClick(e: MouseEvent<HTMLDialogElement>) {
     if (e.target === dialogRef.current) dialogRef.current.close()
-    console.log()
   }
 
   return (
