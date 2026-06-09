@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [role, setRole] = useState<'provider' | 'client' | null>(null)
-  const [session, setSession] = useState<Session | null>(null)
+
 
   const [loading, setLoading] = useState(true)
 
@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setRole(
         (session?.user?.app_metadata as { role?: 'provider' | 'client' } | undefined)?.role ?? null
       )
-      setSession(session ?? null)
+
       setLoading(false)
     })
 
@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setRole(
         (session?.user?.app_metadata as { role?: 'provider' | 'client' } | undefined)?.role ?? null
       )
-      setSession(session ?? null)
+
       setLoading(false)
     })
 
