@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabaseClient'
+import { AuthError } from '@supabase/supabase-js'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,28 +11,53 @@ function ClientSignupForm() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
+  const nameRegex = /^[A-Za-zÀ-ÿ\-']{2,}$/
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
     setError('')
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: `${firstName.trim()} ${lastName.trim()}`,
-          role: 'client',
+    try {
+      const trimmedFirstName = firstName.trim()
+      const trimmedLastName = lastName.trim()
+
+      if (!nameRegex.test(trimmedFirstName) || !nameRegex.test(trimmedLastName)) {
+        setError('Please enter a valid first and last name.')
+        return
+      }
+
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: `${trimmedFirstName} ${trimmedLastName}`,
+          },
         },
-      },
-    })
-    if (error) {
-      setError(error.message)
+      })
+      if (error) {
+        setError(handleErrorMessage(error))
+        return
+      }
+
+      navigate('/login')
+    } finally {
       setSubmitting(false)
-      return
     }
-    setSubmitting(false)
-    navigate('/login')
+  }
+  const handleErrorMessage = (error: AuthError): string => {
+    switch (error.code) {
+      case 'email_exists':
+      case 'user_already_exists':
+        return 'Something went wrong. Please check your details and try again'
+        break
+      case 'weak_password':
+        return 'Password does not meet requirements.'
+        break
+      default:
+        return 'server error'
+        break
+    }
   }
 
   return (
@@ -55,6 +81,7 @@ function ClientSignupForm() {
               placeholder="Steve"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
           </div>
           {/* LAST NAME */}
@@ -69,6 +96,7 @@ function ClientSignupForm() {
               placeholder="Jobs"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>
         </div>
@@ -85,6 +113,7 @@ function ClientSignupForm() {
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
         {/* PASSWORD */}
@@ -99,6 +128,7 @@ function ClientSignupForm() {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
 

@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabaseClient'
+import { AuthError } from '@supabase/supabase-js'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,33 +12,56 @@ function ProviderSignupForm() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const nameRegex = /^[A-Za-zÀ-ÿ\-']{2,}$/
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
     setError('')
+    try {
+      const trimmedFirstName = firstName.trim()
+      const trimmedLastName = lastName.trim()
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          business_name: businessName,
-          full_name: `${firstName.trim()} ${lastName.trim()}`,
-          role: 'provider',
+      if (!nameRegex.test(trimmedFirstName) || !nameRegex.test(trimmedLastName)) {
+        setError('Please enter a valid first and last name.')
+        return
+      }
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            business_name: businessName,
+            full_name: `${firstName.trim()} ${lastName.trim()}`,
+          },
         },
-      },
-    })
-    if (error) {
-      setError(error.message)
-      setSubmitting(false)
-      console.log(error.message)
-      return
-    }
+      })
+      if (error) {
+        setError(handleErrorMessage(error))
+        return
+      }
 
-    setSubmitting(false)
-    navigate('/dashboard')
+      navigate('/dashboard')
+    } finally {
+      setSubmitting(false)
+    }
   }
+
+  const handleErrorMessage = (error: AuthError): string => {
+    switch (error.code) {
+      case 'email_exists':
+      case 'user_already_exists':
+        return 'Something went wrong. Please check your details and try again'
+        break
+      case 'weak_password':
+        return 'Password does not meet requirements.'
+        break
+      default:
+        return 'server error'
+        break
+    }
+  }
+
   return (
     <>
       <div className="flex item-center">
@@ -61,6 +85,7 @@ function ProviderSignupForm() {
               placeholder="James"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -74,6 +99,7 @@ function ProviderSignupForm() {
               placeholder="Brown"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>
         </div>
@@ -90,6 +116,7 @@ function ProviderSignupForm() {
             placeholder="Extreme Detailing"
             value={businessName}
             onChange={(e) => setBusinessName(e.target.value)}
+            required
           />
         </div>
 
@@ -105,6 +132,7 @@ function ProviderSignupForm() {
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
 
@@ -120,6 +148,7 @@ function ProviderSignupForm() {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
 

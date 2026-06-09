@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabaseClient'
+import { AuthError } from '@supabase/supabase-js'
 import '@/index.css'
-
 import { useState } from 'react'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 
@@ -17,18 +17,30 @@ function LoginForm() {
     e.preventDefault()
     setSubmitting(true)
     setError('')
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    if (error) {
-      setError(error.message)
-      setSubmitting(false)
-      return
-    }
-    setSubmitting(false)
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      if (error) {
+        setError(handleErrorMessage(error))
+        return
+      }
 
-    navigate('/dashboard')
+      navigate('/dashboard')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+  const handleErrorMessage = (error: AuthError): string => {
+    switch (error.code) {
+      case 'invalid_credentials':
+        return 'Something went wrong. Please check your details and try again'
+        break
+      default:
+        return 'server error'
+        break
+    }
   }
   return (
     <>
@@ -45,6 +57,7 @@ function LoginForm() {
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
         {/* PASSWORD */}
@@ -59,6 +72,7 @@ function LoginForm() {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <div className="flex justify-end">
             <Link to="/reset" className="text-sm text-[#1A6FD4] hover:underline">

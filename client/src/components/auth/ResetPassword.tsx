@@ -4,6 +4,7 @@ import UpdatePassword from '@/components/auth/UpdatePassword'
 import { supabase } from '@/lib/supabaseClient'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AuthError } from '@supabase/supabase-js'
 
 function ResetPassword() {
   const [email, setEmail] = useState('')
@@ -17,11 +18,14 @@ function ResetPassword() {
     const hash = window.location.hash
     const isRecovery = hash.includes('type=recovery')
     if (isRecovery) {
-      supabase.auth.onAuthStateChange((event) => {
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((event) => {
         if (event === 'PASSWORD_RECOVERY') {
           setStep('password-reset')
         }
       })
+      return () => subscription.unsubscribe()
     }
   }, [])
 
@@ -33,7 +37,7 @@ function ResetPassword() {
       redirectTo: `${window.location.origin}/reset`,
     })
     if (error) {
-      setError(error.message)
+      setError(handleErrorMessage(error))
       return
     }
     setStep('email-sent')
@@ -49,10 +53,27 @@ function ResetPassword() {
     const { error } = await supabase.auth.updateUser({ password })
 
     if (error) {
-      setError(error.message)
+      setError(handleErrorMessage(error))
       return
     }
     navigate('/login', { state: { passwordReset: true } })
+  }
+
+  const handleErrorMessage = (error: AuthError): string => {
+    switch (error.code) {
+      case 'over_email_send_rate_limit':
+        return 'Something went wrong'
+        break
+      case 'reauthentication_needed':
+        return 'Please check email'
+        break
+      case 'weak_password':
+        return 'Password does not meet requirements.'
+        break
+      default:
+        return 'server error'
+        break
+    }
   }
 
   if (step === 'email-sent') return <EmailSent email={email} />

@@ -1,12 +1,11 @@
 // src/context/AuthContext.tsx
 import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
-import type { User, Session } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 
 interface AuthContextType {
   user: User | null
   role: 'provider' | 'client' | null
-  session: Session | null
   loading: boolean
   signOut: () => Promise<void>
 }
@@ -16,7 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [role, setRole] = useState<'provider' | 'client' | null>(null)
-  const [session, setSession] = useState<Session | null>(null)
+
 
   const [loading, setLoading] = useState(true)
 
@@ -26,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setRole(
         (session?.user?.app_metadata as { role?: 'provider' | 'client' } | undefined)?.role ?? null
       )
-      setSession(session ?? null)
+
       setLoading(false)
     })
 
@@ -37,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setRole(
         (session?.user?.app_metadata as { role?: 'provider' | 'client' } | undefined)?.role ?? null
       )
-      setSession(session ?? null)
+
       setLoading(false)
     })
 
@@ -48,9 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut()
   }
   return (
-    <AuthContext.Provider value={{ user, role, loading, session, signOut }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, role, loading, signOut }}>{children}</AuthContext.Provider>
   )
 }
 

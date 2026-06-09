@@ -38,6 +38,7 @@ function RequestReset({ email, setEmail, onSubmit: _onSubmit, error }: requestRe
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 

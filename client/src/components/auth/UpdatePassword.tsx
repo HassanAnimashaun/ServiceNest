@@ -37,6 +37,7 @@ function UpdatePassword({
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div className="mb-4">
@@ -50,6 +51,7 @@ function UpdatePassword({
               placeholder="••••••••"
               value={confirmPassword}
               onChange={(e) => setconfirmPassword(e.target.value)}
+              required
             />
           </div>
           <div className="mb-3">{error && <p className="sn-error">{error}</p>}</div>
