@@ -280,4 +280,31 @@
     color: var(--color-green-text);
     font-size: 16px;
   }
+
+  .sn-navbar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 16px;
+    background: transparent;
+    width: 100%;
+  }
+
+  .sn-navbar:hover:not(.sn-locked) {
+    background: #e0e0e0;
+    color: var(--color-text-primary);
+    width: 100%;
+  }
+
+  .sn-navbar.active {
+    color: var(--color-brand-blue);
+    background: #e0e0e0;
+    width: 100%;
+  }
+  .sn-locked {
+    justify-content: space-between;
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
 }

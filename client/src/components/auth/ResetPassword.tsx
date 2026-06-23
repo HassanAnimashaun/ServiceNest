@@ -62,18 +62,10 @@ function ResetPassword() {
   const handleErrorMessage = (error: AuthError): string => {
     switch (error.code) {
       case 'over_email_send_rate_limit':
-        return 'Something went wrong'
-        break
-      case 'reauthentication_needed':
-        return 'Please check email'
-        break
-      case 'weak_password':
-        return 'Password does not meet requirements.'
-        break
-      default:
-        return 'server error'
-        break
-    }
+        return 'Something went wrong'      case 'reauthentication_needed':
+        return 'Please check email'      case 'weak_password':
+        return 'Password does not meet requirements.'      default:
+        return 'Something went wrong. Please try again.'    }
   }
 
   if (step === 'email-sent') return <EmailSent email={email} />

@@ -35,12 +35,8 @@ function LoginForm() {
   const handleErrorMessage = (error: AuthError): string => {
     switch (error.code) {
       case 'invalid_credentials':
-        return 'Something went wrong. Please check your details and try again'
-        break
-      default:
-        return 'server error'
-        break
-    }
+        return 'Something went wrong. Please check your details and try again'      default:
+        return 'Something went wrong. Please try again.'    }
   }
   return (
     <>

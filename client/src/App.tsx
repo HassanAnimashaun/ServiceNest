@@ -6,6 +6,9 @@ import ProtectedRoute from './components/gaurd/ProtecedRoute'
 import RoleRoute from './components/gaurd/RoleRoute'
 import UnauthorizedUser from './pages/public/UnauthorizedUser'
 import ResetPassword from './pages/public/ResetPasswordPage'
+import ProfilePage from './pages/provider/dashboard/ProfilePage'
+import PackagePage from './pages/provider/dashboard/PackagePage'
+import OnboardingRedirect from './components/gaurd/OnboardingRedirect'
 
 function App() {
   return (
@@ -13,7 +16,7 @@ function App() {
       <Route path="/login" element={<AuthPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/reset" element={<ResetPassword />} />
-      <Route path="401" element={<UnauthorizedUser />} />
+      <Route path="/401" element={<UnauthorizedUser />} />
 
       <Route
         path="/dashboard"
@@ -24,7 +27,11 @@ function App() {
             </RoleRoute>
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<OnboardingRedirect />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="package" element={<PackagePage />} />
+      </Route>
     </Routes>
   )
 }

@@ -6,6 +6,7 @@ import type { User } from '@supabase/supabase-js'
 interface AuthContextType {
   user: User | null
   role: 'provider' | 'client' | null
+  isOnboarding: boolean
   loading: boolean
   signOut: () => Promise<void>
 }
@@ -16,7 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [role, setRole] = useState<'provider' | 'client' | null>(null)
 
-
+  const [isOnboarding, setIsOnboarding] = useState(true)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -31,12 +32,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null)
       setRole(
         (session?.user?.app_metadata as { role?: 'provider' | 'client' } | undefined)?.role ?? null
       )
-
+      if (session?.user?.app_metadata.role === 'provider') {
+        const { data } = await supabase
+          .from('providers')
+          .select('isonboarding')
+          .eq('id', session?.user?.id)
+          .single()
+        if (data) {
+          setIsOnboarding(data.isonboarding)
+        }
+      }
       setLoading(false)
     })
 
@@ -47,7 +57,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut()
   }
   return (
-    <AuthContext.Provider value={{ user, role, loading, signOut }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, role, isOnboarding, loading, signOut }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
 

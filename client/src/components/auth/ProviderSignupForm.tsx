@@ -51,15 +51,9 @@ function ProviderSignupForm() {
     switch (error.code) {
       case 'email_exists':
       case 'user_already_exists':
-        return 'Something went wrong. Please check your details and try again'
-        break
-      case 'weak_password':
-        return 'Password does not meet requirements.'
-        break
-      default:
-        return 'server error'
-        break
-    }
+        return 'Something went wrong. Please check your details and try again'      case 'weak_password':
+        return 'Password does not meet requirements.'      default:
+        return 'Something went wrong. Please try again.'    }
   }
 
   return (
