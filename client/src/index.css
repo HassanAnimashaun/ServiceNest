@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+
 /* ============================================================
    ServiceNest — Button System (sn- prefixed)
    Tailwind v4 CSS-first config
@@ -11,6 +12,17 @@
      <button className="sn-btn-secondary sn-btn-sm">Cancel</button>
      <button className="sn-btn-cta sn-btn-full">Book now</button>
    ============================================================ */
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 /* ------------------------------------------------------------
    1. Design tokens
@@ -100,6 +112,7 @@
    ------------------------------------------------------------ */
 
 @layer components {
+
   /* -- Primary -----------------------------------------------
      Solid blue. Main actions — log in, save, confirm.
      ---------------------------------------------------------- */
@@ -135,6 +148,7 @@
   .sn-btn-secondary:active:not(:disabled) {
     background: var(--color-brand-blue-mid);
   }
+
   .sn-btn-secondary.active {
     background: var(--color-brand-blue-mid);
   }
@@ -258,6 +272,7 @@
     font-size: 16px;
     color: var(--color-text-secondary);
   }
+
   .sn-input {
     width: 100%;
     height: 40px;
@@ -269,6 +284,7 @@
     background-color: white;
     outline: none;
   }
+
   .sn-input:focus {
     outline: none;
     border-color: var(--color-brand-blue);
@@ -279,6 +295,7 @@
     color: var(--color-red-text);
     font-size: 16px;
   }
+
   .sn-noti {
     color: var(--color-green-text);
     font-size: 16px;
@@ -305,6 +322,7 @@
     background: #e0e0e0;
     width: 100%;
   }
+
   .sn-locked {
     justify-content: space-between;
     opacity: 0.38;
@@ -315,8 +333,8 @@
     background: transparent;
     color: var(--color-brand-blue);
     border: 1.5px solid var(--color-brand-blue);
-    font-size: 12px;
-    padding: 4px 12px;
+    font-size: 14px;
+    padding: 13px;
     border-radius: 99px;
   }
 
