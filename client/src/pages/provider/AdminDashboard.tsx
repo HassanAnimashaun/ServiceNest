@@ -1,16 +1,21 @@
-import Header from '@/components/ui/Header'
-import AdminNavbar from '@/components/ui/AdminNavbar'
+import Header from '@/components/layout/Header'
+import AdminNavbar from '@/components/layout/AdminNavbar'
 import { Outlet } from 'react-router-dom'
+import { useState } from 'react'
+
 function AdminDashboard() {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <div className="h-screen grid grid-cols-[176px_1fr] grid-rows-[auto_1fr]">
-      <div className="row-span-2 h-full">
-        <AdminNavbar />
+    <div className="lg:h-screen lg:grid lg:grid-cols-[176px_1fr] lg:grid-rows-[auto_1fr]">
+      <div className="lg:row-span-2">
+        <AdminNavbar isOpen={isOpen} onClose={() => setIsOpen(false)} />
       </div>
-      <div>
-        <Header />
+
+      <div className="">
+        <Header sidebarToggle={() => setIsOpen(!isOpen)} />
       </div>
-      <div>
+      <div className="flex flex-col justify-center items-center pt-8 px-4 w-full">
         <Outlet />
       </div>
     </div>

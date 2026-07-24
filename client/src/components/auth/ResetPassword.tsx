@@ -9,7 +9,7 @@ import { AuthError } from '@supabase/supabase-js'
 function ResetPassword() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setconfirmPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [step, setStep] = useState<'email-veri' | 'email-sent' | 'password-reset'>('email-veri')
   const navigate = useNavigate()
@@ -62,10 +62,14 @@ function ResetPassword() {
   const handleErrorMessage = (error: AuthError): string => {
     switch (error.code) {
       case 'over_email_send_rate_limit':
-        return 'Something went wrong'      case 'reauthentication_needed':
-        return 'Please check email'      case 'weak_password':
-        return 'Password does not meet requirements.'      default:
-        return 'Something went wrong. Please try again.'    }
+        return 'Something went wrong'
+      case 'reauthentication_needed':
+        return 'Please check email'
+      case 'weak_password':
+        return 'Password does not meet requirements.'
+      default:
+        return 'Something went wrong. Please try again.'
+    }
   }
 
   if (step === 'email-sent') return <EmailSent email={email} />
@@ -76,7 +80,7 @@ function ResetPassword() {
         password={password}
         setPassword={setPassword}
         confirmPassword={confirmPassword}
-        setconfirmPassword={setconfirmPassword}
+        setConfirmPassword={setConfirmPassword}
         error={error}
         onSubmit={handleUpdate}
       />

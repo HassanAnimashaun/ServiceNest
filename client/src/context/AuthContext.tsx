@@ -2,12 +2,14 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import type { User } from '@supabase/supabase-js'
+import hydrateOnboardingStatus from '@/utils/OnboardingCheck'
 
 interface AuthContextType {
   user: User | null
   role: 'provider' | 'client' | null
   isOnboarding: boolean
   loading: boolean
+  refreshOnboarding: () => Promise<void>
   signOut: () => Promise<void>
 }
 
@@ -21,12 +23,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null)
       setRole(
         (session?.user?.app_metadata as { role?: 'provider' | 'client' } | undefined)?.role ?? null
       )
-
+      if (session?.user?.app_metadata.role === 'provider') {
+        const status = await hydrateOnboardingStatus(session.user.id)
+        if (status !== null) setIsOnboarding(status)
+      }
       setLoading(false)
     })
 
@@ -38,26 +43,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         (session?.user?.app_metadata as { role?: 'provider' | 'client' } | undefined)?.role ?? null
       )
       if (session?.user?.app_metadata.role === 'provider') {
-        const { data } = await supabase
-          .from('providers')
-          .select('isonboarding')
-          .eq('id', session?.user?.id)
-          .single()
-        if (data) {
-          setIsOnboarding(data.isonboarding)
-        }
+        const status = await hydrateOnboardingStatus(session.user.id)
+        if (status !== null) setIsOnboarding(status)
       }
+
       setLoading(false)
     })
 
     return () => subscription.unsubscribe()
   }, [])
 
+  const refreshOnboarding = async () => {
+    if (user && role === 'provider') {
+      const status = await hydrateOnboardingStatus(user.id)
+      if (status !== null) setIsOnboarding(status)
+    }
+  }
+
   const signOut = async () => {
     await supabase.auth.signOut()
   }
   return (
-    <AuthContext.Provider value={{ user, role, isOnboarding, loading, signOut }}>
+    <AuthContext.Provider value={{ user, role, isOnboarding, loading, refreshOnboarding, signOut }}>
       {children}
     </AuthContext.Provider>
   )

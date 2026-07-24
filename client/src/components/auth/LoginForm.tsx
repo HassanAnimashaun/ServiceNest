@@ -35,14 +35,16 @@ function LoginForm() {
   const handleErrorMessage = (error: AuthError): string => {
     switch (error.code) {
       case 'invalid_credentials':
-        return 'Something went wrong. Please check your details and try again'      default:
-        return 'Something went wrong. Please try again.'    }
+        return 'Something went wrong. Please check your details and try again'
+      default:
+        return 'Something went wrong. Please try again.'
+    }
   }
   return (
     <>
       <form onSubmit={handleLogin}>
         {/* EMAIL */}
-        <div className="mb-4">
+        <div className="mb-5">
           <label htmlFor="login-email" className="sn-label">
             Email
           </label>
@@ -57,7 +59,7 @@ function LoginForm() {
           />
         </div>
         {/* PASSWORD */}
-        <div className="mb-4">
+        <div className="mb-5">
           <label htmlFor="login-password" className="sn-label">
             Password
           </label>
@@ -71,15 +73,15 @@ function LoginForm() {
             required
           />
           <div className="flex justify-end">
-            <Link to="/reset" className="text-sm text-[#1A6FD4] hover:underline">
-              Forgot passoword?
+            <Link to="/reset" className="text-sm text-brand-blue hover:underline">
+              Forgot password?
             </Link>
           </div>
         </div>
 
         <div className="mb-3">
           {error && <p className="sn-error">{error}</p>}
-          {ResetPassword && <p className="sn-noti">Password reset succesful</p>}
+          {ResetPassword && <p className="sn-noti">Password reset successful</p>}
         </div>
 
         {/* LOGIN */}

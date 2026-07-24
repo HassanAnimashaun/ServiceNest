@@ -49,17 +49,20 @@ function ClientSignupForm() {
     switch (error.code) {
       case 'email_exists':
       case 'user_already_exists':
-        return 'Something went wrong. Please check your details and try again'      case 'weak_password':
-        return 'Password does not meet requirements.'      default:
-        return 'Something went wrong. Please try again.'    }
+        return 'Something went wrong. Please check your details and try again'
+      case 'weak_password':
+        return 'Password does not meet requirements.'
+      default:
+        return 'Something went wrong. Please try again.'
+    }
   }
 
   return (
     <>
-      <div className="flex item-center">
-        <h2>Create a client account</h2>
+      <div className="flex items-center">
+        <h2 className="text-xl font-semibold text-text-primary">Create a client account</h2>
       </div>
-      <p className="text-sm text-[#888780] mb-4">Book trusted mobile detailers near you.</p>
+      <p className="text-sm text-text-secondary mb-4">Book trusted mobile detailers near you.</p>
 
       <form onSubmit={handleSignUp}>
         <div className="grid grid-cols-2 gap-2 mb-5">

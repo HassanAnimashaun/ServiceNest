@@ -19,9 +19,9 @@ export type NavItem = {
 
 export const navItems: NavItem[] = [
   { label: 'Dashboard', path: '/home', icon: IconLayoutDashboard, isLocked: true },
-  { label: 'Schedule', path: '/schedule', icon: IconCalendar, isLocked: true },
-  { label: 'Bookings', path: '/bookings', icon: IconClipboardList, isLocked: true },
+  { label: 'Schedule', path: '/dashboard/schedule', icon: IconCalendar, isLocked: true },
+  { label: 'Bookings', path: '/dashboard/bookings', icon: IconClipboardList, isLocked: true },
   { label: 'Package', path: '/dashboard/package', icon: IconBox, isLocked: false },
   { label: 'Profile', path: '/dashboard/profile', icon: IconUser, isLocked: false },
-  { label: 'Settings', path: '/settings', icon: IconSettings, isLocked: true },
+  { label: 'Settings', path: '/dashboard/settings', icon: IconSettings, isLocked: true },
 ]

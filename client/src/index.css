@@ -135,6 +135,9 @@
   .sn-btn-secondary:active:not(:disabled) {
     background: var(--color-brand-blue-mid);
   }
+  .sn-btn-secondary.active {
+    background: var(--color-brand-blue-mid);
+  }
 
   /* -- CTA ---------------------------------------------------
      Amber. Booking, sign up, get started.
@@ -306,5 +309,23 @@
     justify-content: space-between;
     opacity: 0.38;
     cursor: not-allowed;
+  }
+
+  .sn-btn-pill {
+    background: transparent;
+    color: var(--color-brand-blue);
+    border: 1.5px solid var(--color-brand-blue);
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 99px;
+  }
+
+  .sn-btn-pill:hover:not(:disabled) {
+    background: var(--color-brand-blue-light);
+  }
+
+  .sn-btn-pill:active:not(:disabled),
+  .sn-btn-pill.active {
+    background: var(--color-brand-blue-mid);
   }
 }

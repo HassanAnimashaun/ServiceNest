@@ -2,13 +2,13 @@ import { Routes, Route } from 'react-router-dom'
 import AuthPage from './pages/public/AuthPage'
 import AdminDashboard from './pages/provider/AdminDashboard'
 import HomePage from './pages/public/HomePage'
-import ProtectedRoute from './components/gaurd/ProtecedRoute'
-import RoleRoute from './components/gaurd/RoleRoute'
+import ProtectedRoute from './components/guard/ProtectedRoute'
+import RoleRoute from './components/guard/RoleRoute'
 import UnauthorizedUser from './pages/public/UnauthorizedUser'
 import ResetPassword from './pages/public/ResetPasswordPage'
 import ProfilePage from './pages/provider/dashboard/ProfilePage'
 import PackagePage from './pages/provider/dashboard/PackagePage'
-import OnboardingRedirect from './components/gaurd/OnboardingRedirect'
+import OnboardingRedirect from './components/guard/OnboardingRedirect'
 
 function App() {
   return (

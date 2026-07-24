@@ -21,7 +21,7 @@ function Popover({ isOpen, onClose }: PopoverProp) {
 
   return (
     <>
-      <div className="absolute right-4 bg-white border border-[#D3D1C7] rounded-xl p-2 max-w-md">
+      <div className="absolute right-4 bg-white border border-border rounded-xl p-2 max-w-md">
         <button
           onClick={() => {
             onClose()
