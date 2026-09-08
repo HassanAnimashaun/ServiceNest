@@ -32,7 +32,7 @@ function ProviderSignupForm() {
         options: {
           data: {
             business_name: businessName,
-            full_name: `${firstName.trim()} ${lastName.trim()}`,
+            full_name: `${trimmedFirstName} ${trimmedLastName}`,
           },
         },
       })
@@ -41,7 +41,7 @@ function ProviderSignupForm() {
         return
       }
 
-      navigate('/dashboard')
+      void navigate('/dashboard')
     } finally {
       setSubmitting(false)
     }
@@ -52,22 +52,19 @@ function ProviderSignupForm() {
       case 'email_exists':
       case 'user_already_exists':
         return 'Something went wrong. Please check your details and try again'
-        break
       case 'weak_password':
         return 'Password does not meet requirements.'
-        break
       default:
-        return 'server error'
-        break
+        return 'Something went wrong. Please try again.'
     }
   }
 
   return (
     <>
-      <div className="flex item-center">
-        <h2>Create a provider account</h2>
+      <div className="flex items-center">
+        <h2 className="text-xl font-semibold text-text-primary">Create a provider account</h2>
       </div>
-      <p className="text-sm text-[#888780] mb-4">
+      <p className="text-sm text-text-secondary mb-4">
         Grow your mobile detailing business with ServiceNest.
       </p>
 
@@ -75,7 +72,7 @@ function ProviderSignupForm() {
         {/* OWNER NAME */}
         <div className="grid grid-cols-2 gap-2 mb-5">
           <div>
-            <label htmlFor="provider-first-name" className="text-xs text-[#5F5E5A]">
+            <label htmlFor="provider-first-name" className="sn-label">
               First Name
             </label>
             <input
@@ -89,7 +86,7 @@ function ProviderSignupForm() {
             />
           </div>
           <div>
-            <label htmlFor="provider-last-name" className="text-xs text-[#5F5E5A]">
+            <label htmlFor="provider-last-name" className="sn-label">
               Last Name
             </label>
             <input
@@ -106,7 +103,7 @@ function ProviderSignupForm() {
 
         {/* BUSINESS NAME*/}
         <div className="mb-5">
-          <label htmlFor="provider-business-name" className="text-xs text-[#5F5E5A]">
+          <label htmlFor="provider-business-name" className="sn-label">
             Business name
           </label>
           <input
@@ -122,7 +119,7 @@ function ProviderSignupForm() {
 
         {/* EMAIL */}
         <div className="mb-5">
-          <label htmlFor="provider-email" className="text-xs text-[#5F5E5A]">
+          <label htmlFor="provider-email" className="sn-label">
             Email
           </label>
           <input
@@ -138,7 +135,7 @@ function ProviderSignupForm() {
 
         {/* PASSWORD */}
         <div className="mb-5">
-          <label htmlFor="provider-password" className="text-xs text-[#5F5E5A]">
+          <label htmlFor="provider-password" className="sn-label">
             Password
           </label>
           <input

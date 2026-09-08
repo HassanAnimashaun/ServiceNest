@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+
 /* ============================================================
    ServiceNest — Button System (sn- prefixed)
    Tailwind v4 CSS-first config
@@ -11,6 +12,17 @@
      <button className="sn-btn-secondary sn-btn-sm">Cancel</button>
      <button className="sn-btn-cta sn-btn-full">Book now</button>
    ============================================================ */
+/* Chrome, Safari, Edge, Opera */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
 
 /* ------------------------------------------------------------
    1. Design tokens
@@ -136,6 +148,10 @@
     background: var(--color-brand-blue-mid);
   }
 
+  .sn-btn-secondary.active {
+    background: var(--color-brand-blue-mid);
+  }
+
   /* -- CTA ---------------------------------------------------
      Amber. Booking, sign up, get started.
      ---------------------------------------------------------- */
@@ -188,6 +204,24 @@
   }
 
   .sn-btn-danger:active:not(:disabled) {
+    background: #f7c1c1;
+  }
+
+  /* -- Danger Ghost --------------------------------------------
+     No border or background, red text. Low-emphasis destructive
+     actions inline in lists/rows — delete, remove.
+     ---------------------------------------------------------- */
+  .sn-btn-danger-ghost {
+    background: transparent;
+    color: var(--color-red-text);
+    border: 1.5px solid transparent;
+  }
+
+  .sn-btn-danger-ghost:hover:not(:disabled) {
+    background: var(--color-red-bg);
+  }
+
+  .sn-btn-danger-ghost:active:not(:disabled) {
     background: #f7c1c1;
   }
 
@@ -255,6 +289,7 @@
     font-size: 16px;
     color: var(--color-text-secondary);
   }
+
   .sn-input {
     width: 100%;
     height: 40px;
@@ -266,6 +301,7 @@
     background-color: white;
     outline: none;
   }
+
   .sn-input:focus {
     outline: none;
     border-color: var(--color-brand-blue);
@@ -276,8 +312,55 @@
     color: var(--color-red-text);
     font-size: 16px;
   }
+
   .sn-noti {
     color: var(--color-green-text);
     font-size: 16px;
+  }
+
+  .sn-navbar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 16px;
+    background: transparent;
+    width: 100%;
+  }
+
+  .sn-navbar:hover:not(.sn-locked) {
+    background: #e0e0e0;
+    color: var(--color-text-primary);
+    width: 100%;
+  }
+
+  .sn-navbar.active {
+    color: var(--color-brand-blue);
+    background: #e0e0e0;
+    width: 100%;
+  }
+
+  .sn-locked {
+    justify-content: space-between;
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .sn-btn-pill {
+    background: transparent;
+    color: var(--color-brand-blue);
+    border: 1.5px solid var(--color-brand-blue);
+    font-size: 14px;
+    padding: 13px;
+    border-radius: 99px;
+  }
+
+  .sn-btn-pill:hover:not(:disabled) {
+    background: var(--color-brand-blue-light);
+  }
+
+  .sn-btn-pill:active:not(:disabled),
+  .sn-btn-pill.active {
+    background: var(--color-brand-blue-mid);
   }
 }

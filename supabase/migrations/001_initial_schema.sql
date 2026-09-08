@@ -4,8 +4,6 @@
 -- ============================================================
 -- Migration history:
 --   001_initial_schema.sql      — base schema
---   002_update_clients.sql      — clients progressive profile
---   003_update_providers.sql    — providers progressive onboarding
 -- ============================================================
 -- HOW TO USE:
 -- This is a reference document showing the CURRENT state of

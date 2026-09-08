@@ -28,11 +28,11 @@ function Modal({ trigger, triggerClassName, children }: ModalProps) {
       >
         {children}
         <div className="flex justify-evenly mt-4">
-          <p className="text-sm text-[#888780] mb-4">
+          <p className="text-sm text-text-secondary mb-4">
             Already have an account?{' '}
             <button
               onClick={() => dialogRef.current?.close()}
-              className="text-base text-[#1A6FD4] hover:underline cursor-pointer"
+              className="text-base text-brand-blue hover:underline cursor-pointer"
             >
               Log in
             </button>
@@ -41,7 +41,7 @@ function Modal({ trigger, triggerClassName, children }: ModalProps) {
         <button
           aria-label="Close"
           onClick={() => dialogRef.current?.close()}
-          className="absolute top-2 right-4 border-[#D3D1C7] sn-btn-ghost sn-btn-icon"
+          className="absolute top-2 right-4 border-border sn-btn-ghost sn-btn-icon"
         >
           ✕
         </button>

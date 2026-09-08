@@ -4,7 +4,7 @@ interface UpdatePasswordProp {
   password: string
   setPassword: React.Dispatch<React.SetStateAction<string>>
   confirmPassword: string
-  setconfirmPassword: React.Dispatch<React.SetStateAction<string>>
+  setConfirmPassword: React.Dispatch<React.SetStateAction<string>>
   error?: string
   onSubmit: (e: React.SyntheticEvent<HTMLFormElement>) => void
 }
@@ -13,17 +13,17 @@ function UpdatePassword({
   password,
   setPassword,
   confirmPassword,
-  setconfirmPassword,
+  setConfirmPassword,
   error,
   onSubmit: _onSubmit,
 }: UpdatePasswordProp) {
   return (
-    <div className="min-h-screen bg-[#F7F8FA] flex flex-col justify-center items-center px-4">
-      <div className="bg-white border border-[#D3D1C7] rounded-xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-page-bg flex flex-col justify-center items-center px-4">
+      <div className="bg-white border border-border rounded-xl p-8 w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-medium text-[#1A6FD4] tracking-tight">ServiceNest</h1>
-          <h2 className="text-sm">Create a client account</h2>
-          <p className="text-sm text-[#888780] mt-1">Must be at least 8 characters.</p>
+          <h1 className="text-2xl font-medium text-brand-blue tracking-tight">ServiceNest</h1>
+          <h2 className="text-sm">Set a new password</h2>
+          <p className="text-sm text-text-secondary mt-1">Must be at least 8 characters.</p>
         </div>
         <form onSubmit={_onSubmit}>
           <div className="mb-4">
@@ -50,7 +50,7 @@ function UpdatePassword({
               className="sn-input"
               placeholder="••••••••"
               value={confirmPassword}
-              onChange={(e) => setconfirmPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>

@@ -3,6 +3,7 @@ import { AuthError } from '@supabase/supabase-js'
 import '@/index.css'
 import { useState } from 'react'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { getUserRole, homePathForRole } from '@/utils/role'
 
 function LoginForm() {
   const [email, setEmail] = useState('')
@@ -18,7 +19,7 @@ function LoginForm() {
     setSubmitting(true)
     setError('')
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
@@ -27,7 +28,7 @@ function LoginForm() {
         return
       }
 
-      navigate('/dashboard')
+      void navigate(homePathForRole(getUserRole(data.user)))
     } finally {
       setSubmitting(false)
     }
@@ -36,17 +37,15 @@ function LoginForm() {
     switch (error.code) {
       case 'invalid_credentials':
         return 'Something went wrong. Please check your details and try again'
-        break
       default:
-        return 'server error'
-        break
+        return 'Something went wrong. Please try again.'
     }
   }
   return (
     <>
       <form onSubmit={handleLogin}>
         {/* EMAIL */}
-        <div className="mb-4">
+        <div className="mb-5">
           <label htmlFor="login-email" className="sn-label">
             Email
           </label>
@@ -61,7 +60,7 @@ function LoginForm() {
           />
         </div>
         {/* PASSWORD */}
-        <div className="mb-4">
+        <div className="mb-5">
           <label htmlFor="login-password" className="sn-label">
             Password
           </label>
@@ -75,15 +74,15 @@ function LoginForm() {
             required
           />
           <div className="flex justify-end">
-            <Link to="/reset" className="text-sm text-[#1A6FD4] hover:underline">
-              Forgot passoword?
+            <Link to="/reset" className="text-sm text-brand-blue hover:underline">
+              Forgot password?
             </Link>
           </div>
         </div>
 
         <div className="mb-3">
           {error && <p className="sn-error">{error}</p>}
-          {ResetPassword && <p className="sn-noti">Password reset succesful</p>}
+          {ResetPassword && <p className="sn-noti">Password reset successful</p>}
         </div>
 
         {/* LOGIN */}
