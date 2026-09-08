@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import NotFound from './pages/public/NotFound'
 import AuthPage from './pages/public/AuthPage'
 import AdminDashboard from './pages/provider/AdminDashboard'
 import HomePage from './pages/public/HomePage'
@@ -13,6 +14,7 @@ import OnboardingRedirect from './components/guard/OnboardingRedirect'
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/home" replace />} />
       <Route path="/login" element={<AuthPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/reset" element={<ResetPassword />} />
@@ -32,6 +34,8 @@ function App() {
         <Route path="profile" element={<ProfilePage />} />
         <Route path="package" element={<PackagePage />} />
       </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

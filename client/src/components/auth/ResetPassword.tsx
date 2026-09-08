@@ -56,7 +56,7 @@ function ResetPassword() {
       setError(handleErrorMessage(error))
       return
     }
-    navigate('/login', { state: { passwordReset: true } })
+    void navigate('/login', { state: { passwordReset: true } })
   }
 
   const handleErrorMessage = (error: AuthError): string => {

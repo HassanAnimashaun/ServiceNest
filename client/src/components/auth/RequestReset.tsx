@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
-interface requestResetProp {
+interface RequestResetProp {
   email: string
   setEmail: React.Dispatch<React.SetStateAction<string>>
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   error?: string
 }
 
-function RequestReset({ email, setEmail, onSubmit: _onSubmit, error }: requestResetProp) {
+function RequestReset({ email, setEmail, onSubmit, error }: RequestResetProp) {
   const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-page-bg flex flex-col justify-center items-center px-4">
@@ -23,7 +23,7 @@ function RequestReset({ email, setEmail, onSubmit: _onSubmit, error }: requestRe
           </p>
         </div>
 
-        <form onSubmit={_onSubmit}>
+        <form onSubmit={onSubmit}>
           <div>
             <label htmlFor="login-email" className="sn-label">
               Email

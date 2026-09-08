@@ -40,7 +40,7 @@ function ClientSignupForm() {
         return
       }
 
-      navigate('/login')
+      void navigate('/login')
     } finally {
       setSubmitting(false)
     }

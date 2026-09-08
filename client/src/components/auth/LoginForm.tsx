@@ -3,6 +3,7 @@ import { AuthError } from '@supabase/supabase-js'
 import '@/index.css'
 import { useState } from 'react'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { getUserRole, homePathForRole } from '@/utils/role'
 
 function LoginForm() {
   const [email, setEmail] = useState('')
@@ -18,7 +19,7 @@ function LoginForm() {
     setSubmitting(true)
     setError('')
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
@@ -27,7 +28,7 @@ function LoginForm() {
         return
       }
 
-      navigate('/dashboard')
+      void navigate(homePathForRole(getUserRole(data.user)))
     } finally {
       setSubmitting(false)
     }

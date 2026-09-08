@@ -5,7 +5,7 @@ function OnboardingRedirect() {
   const { isOnboarding, loading } = useAuth()
 
   if (loading) return <div>Loading...</div>
-  return isOnboarding ? <Navigate to="/dashboard/profile" /> : <Navigate to="/dashboard/home" />
+  return isOnboarding ? <Navigate to="/dashboard/profile" /> : <Navigate to="/dashboard/package" />
 }
 
 export default OnboardingRedirect

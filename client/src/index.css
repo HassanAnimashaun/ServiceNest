@@ -13,14 +13,14 @@
      <button className="sn-btn-cta sn-btn-full">Book now</button>
    ============================================================ */
 /* Chrome, Safari, Edge, Opera */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -112,7 +112,6 @@ input[type=number] {
    ------------------------------------------------------------ */
 
 @layer components {
-
   /* -- Primary -----------------------------------------------
      Solid blue. Main actions — log in, save, confirm.
      ---------------------------------------------------------- */
@@ -205,6 +204,24 @@ input[type=number] {
   }
 
   .sn-btn-danger:active:not(:disabled) {
+    background: #f7c1c1;
+  }
+
+  /* -- Danger Ghost --------------------------------------------
+     No border or background, red text. Low-emphasis destructive
+     actions inline in lists/rows — delete, remove.
+     ---------------------------------------------------------- */
+  .sn-btn-danger-ghost {
+    background: transparent;
+    color: var(--color-red-text);
+    border: 1.5px solid transparent;
+  }
+
+  .sn-btn-danger-ghost:hover:not(:disabled) {
+    background: var(--color-red-bg);
+  }
+
+  .sn-btn-danger-ghost:active:not(:disabled) {
     background: #f7c1c1;
   }
 

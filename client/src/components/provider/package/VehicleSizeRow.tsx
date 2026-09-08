@@ -1,5 +1,4 @@
 import type { SizeData, VehicleSize } from '@/config/types'
-import { useState } from 'react'
 
 interface VehicleSizeRowProp {
   size: VehicleSize
@@ -7,65 +6,51 @@ interface VehicleSizeRowProp {
   onChange: (size: VehicleSize, newData: SizeData) => void
 }
 
-function VehicleSizeRow({ size, data, onChange }: VehicleSizeRowProp) {
-  const [duration, setDuration] = useState<null | number>(null)
+const DURATIONS = [60, 90, 120, 180]
 
+function VehicleSizeRow({ size, data, onChange }: VehicleSizeRowProp) {
   return (
-    <div className="flex flex-col gap-2 border rounded-xl p-2 ">
-      <label htmlFor="">{size}</label>
-      <label htmlFor="" className="sn-label">
-        Duration
-      </label>
-      <div className="flex gap-4">
-        <button
-          className={`sn-btn-pill ${duration === 60 ? " active" : ""}`}
-          onClick={() => {
-            setDuration(duration === 60 ? null : 60)
-            onChange(size, { duration: 60, price: data.price })
-          }
-          }
-        >
-          60m
-        </button>
-        <button
-          className={`sn-btn-pill ${duration === 90 ? "active" : ""}`}
-          onClick={() => {
-            setDuration(duration === 90 ? null : 90)
-            onChange(size, { duration: 90, price: data.price })
-          }}
-        >
-          90m
-        </button>
-        <button
-          className={`sn-btn-pill ${duration === 120 ? " active" : ""}`}
-          onClick={() => {
-            setDuration(duration === 120 ? null : 120 )
-            onChange(size, { duration: 120, price: data.price })
-          }}
-        >
-          120m
-        </button>
-        <button
-          className={`sn-btn-pill ${duration === 180 ? " active" : ""}`}
-          onClick={() => {
-            setDuration(duration === 180 ? null : 180 )
-            onChange(size, { duration: 180, price: data.price })
-          }}
-        >
-          180m
-        </button>
+    <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_100px] items-start md:items-center gap-2 md:gap-6 px-2 md:px-6 py-3 md:py-2 border-b border-border">
+      <div>
+        <label>{size}</label>
       </div>
-      <label htmlFor="" className="sn-label">
-        Price
-      </label>
+
+      <div className="flex flex-nowrap gap-2">
+        {DURATIONS.map((duration) => (
+          <button
+            key={duration}
+            type="button"
+            className={`sn-btn-pill ${data.duration === duration ? 'active' : ''}`}
+            onClick={() => {
+              onChange(size, {
+                duration: data.duration === duration ? undefined : duration,
+                price: data.price,
+                vehicle_size: size,
+              })
+            }}
+          >
+            {duration}m
+          </button>
+        ))}
+      </div>
+
+      <div className="relative w-24">
+        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary">$</span>
         <input
           type="number"
-          value={data.price}
+          min={0}
+          max={9999}
+          value={data.price ?? ''}
           onChange={(e) => {
-            onChange(size, { duration: data.duration, price: Number(e.target.value) })
+            onChange(size, {
+              duration: data.duration,
+              price: e.target.value === '' ? undefined : Number(e.target.value),
+              vehicle_size: size,
+            })
           }}
-          className="border rounded"
+          className="border rounded pl-6 w-full"
         />
+      </div>
     </div>
   )
 }

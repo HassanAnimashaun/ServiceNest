@@ -32,7 +32,7 @@ function ProviderSignupForm() {
         options: {
           data: {
             business_name: businessName,
-            full_name: `${firstName.trim()} ${lastName.trim()}`,
+            full_name: `${trimmedFirstName} ${trimmedLastName}`,
           },
         },
       })
@@ -41,7 +41,7 @@ function ProviderSignupForm() {
         return
       }
 
-      navigate('/dashboard')
+      void navigate('/dashboard')
     } finally {
       setSubmitting(false)
     }
