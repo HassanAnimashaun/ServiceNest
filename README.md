@@ -41,6 +41,7 @@ The platform has two sides:
 **Deferred / Not Yet Integrated**
 
 - Resend (email notifications)
+- PWA support (`vite-plugin-pwa`)
 
 ## Features
 
@@ -76,7 +77,7 @@ The platform has two sides:
 
 - **Division of responsibility:** Edge Functions handle business logic, RLS handles access control, Postgres constraints/triggers handle data integrity — privileged operations never live client-side.
 - **Schema-first:** data model decisions are made deliberately since they're harder to reverse than component-level changes.
-- Key tables: `providers`, `clients`, `vehicles`, `working_hours`,`block_working_hours`, `packages`, `package_prices`, `bookings`, `notifications`.
+- Key tables: `providers`, `clients`, `vehicles`, `working_hours`, `packages`, `package_prices`, `bookings`, `notifications`.
 - Billing scaffolding fields (`subscription_status`, `stripe_customer_id`, etc.) exist as inert columns, unused during MVP.
 
 ## Getting Started
