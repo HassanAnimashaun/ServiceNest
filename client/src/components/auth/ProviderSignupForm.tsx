@@ -69,7 +69,6 @@ function ProviderSignupForm() {
       </p>
 
       <form onSubmit={handleSignUp}>
-        {/* OWNER NAME */}
         <div className="grid grid-cols-2 gap-2 mb-5">
           <div>
             <label htmlFor="provider-first-name" className="sn-label">
@@ -101,7 +100,6 @@ function ProviderSignupForm() {
           </div>
         </div>
 
-        {/* BUSINESS NAME*/}
         <div className="mb-5">
           <label htmlFor="provider-business-name" className="sn-label">
             Business name
@@ -117,7 +115,6 @@ function ProviderSignupForm() {
           />
         </div>
 
-        {/* EMAIL */}
         <div className="mb-5">
           <label htmlFor="provider-email" className="sn-label">
             Email
@@ -133,7 +130,6 @@ function ProviderSignupForm() {
           />
         </div>
 
-        {/* PASSWORD */}
         <div className="mb-5">
           <label htmlFor="provider-password" className="sn-label">
             Password
@@ -151,7 +147,6 @@ function ProviderSignupForm() {
 
         <div className="mb-3">{error && <p className="sn-error">{error}</p>}</div>
 
-        {/* SUBMIT */}
         <div className="flex justify-center">
           <button type="submit" disabled={submitting} className="sn-btn-secondary sn-btn-full">
             {submitting ? 'Creating account...' : 'Signup'}

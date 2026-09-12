@@ -91,8 +91,6 @@ function PackagePage() {
 
       setPackages(packages.filter((pkgs) => pkgs.id !== id))
       setToastMessage('Package delete successfully')
-      // Deleting the last package can also take the provider back out of
-      // go-live readiness, so re-check here too.
       refreshGoLive()
     } catch {
       setError("Couldn't delete this package. Please try again.")

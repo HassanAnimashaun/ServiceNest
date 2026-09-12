@@ -44,7 +44,6 @@ function LoginForm() {
   return (
     <>
       <form onSubmit={handleLogin}>
-        {/* EMAIL */}
         <div className="mb-5">
           <label htmlFor="login-email" className="sn-label">
             Email
@@ -59,7 +58,6 @@ function LoginForm() {
             required
           />
         </div>
-        {/* PASSWORD */}
         <div className="mb-5">
           <label htmlFor="login-password" className="sn-label">
             Password
@@ -85,7 +83,6 @@ function LoginForm() {
           {ResetPassword && <p className="sn-noti">Password reset successful</p>}
         </div>
 
-        {/* LOGIN */}
         <div className="flex justify-center">
           <button type="submit" disabled={submitting} className="sn-btn-primary sn-btn-full">
             {submitting ? 'Logging In...' : 'Login'}

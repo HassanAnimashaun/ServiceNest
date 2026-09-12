@@ -66,7 +66,6 @@ function ClientSignupForm() {
 
       <form onSubmit={handleSignUp}>
         <div className="grid grid-cols-2 gap-2 mb-5">
-          {/* FIRST NAME*/}
           <div>
             <label htmlFor="client-first-name" className="sn-label">
               First name
@@ -81,7 +80,6 @@ function ClientSignupForm() {
               required
             />
           </div>
-          {/* LAST NAME */}
           <div>
             <label htmlFor="client-last-name" className="sn-label">
               Last name
@@ -98,7 +96,6 @@ function ClientSignupForm() {
           </div>
         </div>
 
-        {/* EMAIL */}
         <div className="mb-5">
           <label htmlFor="client-email" className="sn-label">
             Email
@@ -113,7 +110,6 @@ function ClientSignupForm() {
             required
           />
         </div>
-        {/* PASSWORD */}
         <div className="mb-5">
           <label htmlFor="client-password" className="sn-label">
             Password
@@ -131,7 +127,6 @@ function ClientSignupForm() {
 
         <div className="mb-3">{error && <p className="sn-error">{error}</p>}</div>
 
-        {/* SUBMIT */}
         <div className="flex justify-center">
           <button type="submit" disabled={submitting} className="sn-btn-secondary sn-btn-full">
             {submitting ? 'Creating Account... ' : 'Signup'}
