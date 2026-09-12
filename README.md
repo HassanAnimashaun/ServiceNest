@@ -4,7 +4,7 @@ SaaS booking management for solo mobile service providers — starting with mobi
 
 ## Live Demo
 
-🔗 [servicenest.app](https://servicenest.app/login)
+[servicenest.app](https://servicenest.app/login)
 
 Currently in closed beta, targeting 3–5 local mobile detailers. Not yet open for public signup — see [Project Status](#project-status).
 
